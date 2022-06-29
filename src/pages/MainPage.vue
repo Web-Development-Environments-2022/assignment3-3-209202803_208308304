@@ -1,16 +1,17 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
-    <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
+    <!-- <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center"  :recipes="random_recipes"/> -->
+    <router-link v-if="!$root.store.username" to="/auth/login" tag="button">You need to Login to vue this</router-link>
     {{ !$root.store.username }}
     <RecipePreviewList
-      title="Last Viewed Recipes"
+      title="Last Viewed Recipes:"
       :class="{
         RandomRecipes: true,
         blur: !$root.store.username,
         center: true
       }"
+      :recipes="watched_recipes"
       disabled
     ></RecipePreviewList>
     <!-- <div
@@ -24,8 +25,55 @@
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
 export default {
+  name: "MainPage",
   components: {
     RecipePreviewList
+  },
+
+  data() {
+    return {
+      random_recipes: [],
+      watched_recipes: []
+    };
+  },
+
+  mounted() {
+    this.getRandomRecipes();
+    this.getWatchedRecipes();
+  },
+  methods: {
+    async getRandomRecipes() {
+      try {
+        const response = await this.axios.get(
+          //this.$root.store.server_domain + "/recipes/random",
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+          "http://localhost:3000/recipes/random",
+          { withCredentials: true }
+        );
+
+        console.log(response);
+        this.random_recipes = response.data;
+        console.log(this.random_recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    }, 
+    async getWatchedRecipes() {
+      try {
+        const response = await this.axios.get(
+          //this.$root.store.server_domain + "/recipes/random",
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+          "http://localhost:3000/recipes/watched",
+          { withCredentials: true }
+        );
+
+        console.log(response);
+        this.watched_recipes = response.data;
+        console.log(this.watched_recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 };
 </script>

@@ -8,12 +8,12 @@ const routes = [
     component: Main,
   },
   {
-    path: "/register",
+    path: "/auth/register",
     name: "register",
     component: () => import("./pages/RegisterPage"),
   },
   {
-    path: "/login",
+    path: "/auth/login",
     name: "login",
     component: () => import("./pages/LoginPage"),
   },

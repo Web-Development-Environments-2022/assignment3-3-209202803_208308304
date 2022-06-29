@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+    :to="{ name: 'recipe', params: { recipeId: recipe.recipe_id } }"
     class="recipe-preview"
   >
     <div class="recipe-body">
@@ -24,6 +24,11 @@ export default {
     this.axios.get(this.recipe.image).then((i) => {
       this.image_load = true;
     });
+    if(this.image_load = false){
+      this.axios.get("https://spoonacular.com/recipeImages/471334-312x231.jpg").then((i) => {
+      this.image_load = true;
+      });
+    }
   },
   data() {
     return {

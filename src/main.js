@@ -2,7 +2,6 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-
 import routes from "./routes";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
@@ -10,6 +9,9 @@ const router = new VueRouter({
   routes,
 });
 
+// import VueCookies from "vue-cookies"
+// Vue.use(VueCookies);
+// axios.defaults.withCredentials = true;
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -24,6 +26,7 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  FormRadioPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -36,6 +39,7 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  FormRadioPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
