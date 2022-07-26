@@ -27,6 +27,8 @@ import {
   ToastPlugin,
   LayoutPlugin,
   FormRadioPlugin,
+  DropdownPlugin,
+  FormCheckboxPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -40,6 +42,8 @@ import {
   ToastPlugin,
   LayoutPlugin,
   FormRadioPlugin,
+  DropdownPlugin,
+  FormCheckboxPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
