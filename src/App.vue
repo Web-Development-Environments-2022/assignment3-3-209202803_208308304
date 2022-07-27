@@ -2,7 +2,6 @@
 <div id="app">
    <b-navbar toggleable="lg" type="dark" variant="info">
     <b-navbar-brand href="#" >Recipes</b-navbar-brand>
-    <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <router-link :to="{ name: 'main' }" class="nav-link">Main</router-link>
@@ -17,7 +16,7 @@
       </span>
       <span v-else>
         <b-nav-item-dropdown text="Personal" class="nav-link">
-        <b-dropdown-item ><router-link :to="{ name: 'favorites' }" class="b-dropdown-item">Favorites</router-link> </b-dropdown-item> 
+        <b-dropdown-item ><router-link :to="{ name: 'favorites' }" class="b-dropdown-item">Favorites  <b-icon-heart></b-icon-heart></router-link> </b-dropdown-item> 
         <b-dropdown-item ><router-link :to="{ name: 'myrecipes' }" class="b-dropdown-item">My Recipes</router-link> </b-dropdown-item> 
         <b-dropdown-item ><router-link :to="{ name: 'familyrecipes' }" class="b-dropdown-item">Family Recipes</router-link> </b-dropdown-item> 
         </b-nav-item-dropdown>
@@ -25,6 +24,7 @@
       <span v-if="$root.store.username">
           <b-nav-item @click="Logout" class="nav-link">Logout</b-nav-item>
       </span>
+        <router-link :to="{ name: 'addRecipe' }" @click="$bvModal.show('my-modal')" class="nav-link">Add Recipe</router-link>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto" right>
           <b-button size="sm"><router-link :to="{ name: 'search' }" class="nav-link">Search</router-link></b-button>
@@ -39,22 +39,6 @@
   </b-navbar>
   <router-view />
 </div>
-  <!-- <div id="app">
-    <div id="nav">
-      <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
-      <router-link :to="{ name: 'search' }">Search</router-link>|
-      {{ !$root.store.username }}
-      <span v-if="!$root.store.username">
-        Guest:
-        <router-link :to="{ name: 'register' }">Register</router-link>|
-        <router-link :to="{ name: 'login' }">Login</router-link>|
-      </span>
-      <span v-else>
-        {{ $root.store.username }}: <button @click="Logout">Logout</button>|
-      </span>
-    </div>
-    <router-view />
-  </div> -->
 </template>
 
 <script>
@@ -64,14 +48,14 @@ export default {
     async Logout() {
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
-      // try {
-      //   const response = await this.axios.put(
-      //     "http://localhost:3000/auth/logout",
-      //   );
-      // } catch (err) {
-      //   console.log(err.response);
-      //   this.form.submitError = err.response.data.message;
-      // }
+      try {
+        const response = await this.axios.put(
+          "http://localhost:3000/auth/logout", {}, {withCredentials: true}
+        );
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
       });

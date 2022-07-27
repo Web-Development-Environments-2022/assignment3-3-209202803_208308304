@@ -1,10 +1,11 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <!-- <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center"  :recipes="random_recipes"/> -->
+    <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center"  :recipes="random_recipes"/>
     <router-link v-if="!$root.store.username" to="/auth/login" tag="button">You need to Login to vue this</router-link>
-    {{ !$root.store.username }}
-    <RecipePreviewList
+    <!-- {{ !$root.store.username }} -->
+    <RecipePreviewList title="Last Viewed Recipes:" class="RandomRecipes center"  :recipes="watched_recipes"/>
+    <!-- <RecipePreviewList
       title="Last Viewed Recipes:"
       :class="{
         RandomRecipes: true,
@@ -13,7 +14,7 @@
       }"
       :recipes="watched_recipes"
       disabled
-    ></RecipePreviewList>
+    ></RecipePreviewList> -->
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
     >
@@ -38,7 +39,7 @@ export default {
   },
 
   mounted() {
-    this.getRandomRecipes();
+    // this.getRandomRecipes();
     this.getWatchedRecipes();
   },
   methods: {

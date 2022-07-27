@@ -55,7 +55,8 @@ export default {
         response = await this.axios.put(
           // "https://test-for-3-2.herokuapp.com/recipes/info",
           //this.$root.store.server_domain + "/recipes/info",
-          `http://localhost:3000/recipes/${this.$route.params.recipeId}`,
+          `http://localhost:3000/recipes/${this.$route.params.recipeId}`,{},
+           { withCredentials: true }
           // {
           //   params: { recipeId: this.$route.params.recipeId }
           // }

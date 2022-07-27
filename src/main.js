@@ -9,8 +9,8 @@ const router = new VueRouter({
   routes,
 });
 
-// import VueCookies from "vue-cookies"
-// Vue.use(VueCookies);
+import VueCookies from "vue-cookies"
+Vue.use(VueCookies);
 // axios.defaults.withCredentials = true;
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
@@ -29,6 +29,8 @@ import {
   FormRadioPlugin,
   DropdownPlugin,
   FormCheckboxPlugin,
+  IconsPlugin,
+  ModalPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -44,6 +46,8 @@ import {
   FormRadioPlugin,
   DropdownPlugin,
   FormCheckboxPlugin,
+  IconsPlugin,
+  ModalPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
