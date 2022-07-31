@@ -60,9 +60,10 @@
       ></b-form-radio-group>
     </nav>
   <p v-if="no_result"> sorry, no result match came back</p>
-  <RecipePreviewList title="Results:" class="SearchResult center"  :recipes="search_result.slice(0, 5)"/>
-  <RecipePreviewList title="" class="SearchResult center"  :recipes="search_result.slice(5, 10)"/>
-  <RecipePreviewList title="" class="SearchResult center"  :recipes="search_result.slice(10, 15)"/>
+  <RecipePreviewList title="Results:" class="SearchResult center"  :recipes="search_result.slice(0, 3)"/>
+  <RecipePreviewList v-for="i in row_num" :key="i"  title="" class="SearchResult center"  :recipes="search_result.slice(i*3, i*3+3)"/>
+  <!-- <RecipePreviewList title="" class="SearchResult center"  :recipes="search_result.slice(5, 10)"/>
+  <RecipePreviewList title="" class="SearchResult center"  :recipes="search_result.slice(10, 15)"/> -->
   </div>
 </template>
 
@@ -79,6 +80,7 @@ export default {
       search_query:"",
       search_result: [],
       no_result: false,
+      row_num: 1,
       result_num_selected: '5',
       result_num_options: [
         { item: '5', name: '5' },
@@ -166,6 +168,7 @@ export default {
         if(!this.search_result.length){
           this.no_result = true;
         }
+        this.row_num = Math.ceil(this.search_result.length/3);
         noFilters()
       } catch (error) {
         console.log(error);
@@ -177,28 +180,6 @@ export default {
       this.intolerances_selected= [];
     }
   },
-  computed: {
-    // getCusineFiler(){
-    //   let cuisine_filter="";
-    //   for(var i; i++; i<this.cuisine_selected.length){
-    //     console.log(this.cuisine_selected[i]);
-    //     cuisine_filter += this.cuisine_selected[i] +",";
-    //   }
-    //   return cuisine_filter;
-    // },
-        // selectPosFilter(){
-        //     if (this.selected){
-        //         this.$emit('filter-results', 'position_num', this.selected);
-        //     }
-        //     return true
-
-        // },
-        // noFilters(){
-        //   this.cuisine_selected= [];
-        //   this.diet_selected= [];
-        //   this.intolerances_options= [];
-        // }
-    }
 };
 </script>
 <style lang="scss" scoped>

@@ -3,12 +3,18 @@
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
         <h1>{{ recipe.title }}</h1>
-        <img :src="recipe.image" class="center" />
+        <div v-if="image_load">
+            <img class="center" :src="recipe.image">
+        </div>
+        <div v-else>
+          <img class="center" src="../assets/default_recipe_image.jpg">
+        </div>
       </div>
       <div class="recipe-body">
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
+             <div>Servings amount: {{recipe.servings}}</div>
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.popularity }} likes</div>
             </div>
@@ -43,7 +49,8 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
+      image_load: false,
     };
   },
   async created() {
@@ -99,6 +106,12 @@ export default {
     } catch (error) {
       console.log(error);
     }
+    try{
+      if(this.recipe.image){
+      this.axios.get(this.recipe.image).then((i) => {
+        this.image_load = true;
+      },() => {});}
+    }catch(err){}
   }
 };
 </script>

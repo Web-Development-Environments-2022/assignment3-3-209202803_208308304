@@ -31,6 +31,7 @@ import {
   FormCheckboxPlugin,
   IconsPlugin,
   ModalPlugin,
+  InputGroupPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -48,6 +49,7 @@ import {
   FormCheckboxPlugin,
   IconsPlugin,
   ModalPlugin,
+  InputGroupPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
