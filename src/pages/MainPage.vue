@@ -1,34 +1,25 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center"  :recipes="random_recipes"/>
-    <router-link v-if="!$root.store.username" to="/auth/login" tag="button">You need to Login to vue this</router-link>
-    <!-- {{ !$root.store.username }} -->
-    <RecipePreviewList title="Last Viewed Recipes:" class="RandomRecipes center"  :recipes="watched_recipes"/>
-    <!-- <RecipePreviewList
-      title="Last Viewed Recipes:"
-      :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
-      }"
-      :recipes="watched_recipes"
-      disabled
-    ></RecipePreviewList> -->
-    <!-- <div
-      style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
-    >
-      Centeredasdasdad
-    </div>-->
+      <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center"  :recipes="random_recipes"/>
+      <div v-if="!$root.store.username" class="float-left">
+        <LoginPage @login="getWatchedRecipes"></LoginPage>
+      </div>
+      <div v-else>
+        <RecipePreviewList title="Last Viewed Recipes:" class="RandomRecipes center"  :recipes="watched_recipes"/>
+      
+      </div>
   </div>
 </template>
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
+import LoginPage from "../pages/LoginPage";
 export default {
   name: "MainPage",
   components: {
-    RecipePreviewList
+    RecipePreviewList,
+    LoginPage
   },
 
   data() {
@@ -38,7 +29,7 @@ export default {
     };
   },
 
-  mounted() {
+  created() {
     // this.getRandomRecipes();
     this.getWatchedRecipes();
   },
@@ -60,6 +51,7 @@ export default {
       }
     }, 
     async getWatchedRecipes() {
+            console.log("watched")
       try {
         const response = await this.axios.get(
           //this.$root.store.server_domain + "/recipes/random",
@@ -91,4 +83,8 @@ export default {
   pointer-events: none;
   cursor: default;
 }
+// .left{
+//   align-items: baseline;
+//    left: 10px;
+// }
 </style>

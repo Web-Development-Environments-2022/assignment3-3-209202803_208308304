@@ -24,7 +24,9 @@
       <span v-if="$root.store.username">
           <b-nav-item @click="Logout" class="nav-link">Logout</b-nav-item>
       </span>
+      <span v-if="$root.store.username">
         <router-link :to="{ name: 'addRecipe' }" @click="$bvModal.show('my-modal')" class="nav-link">Add Recipe</router-link>
+      </span>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto" right>
           <b-button size="sm"><router-link :to="{ name: 'search' }" class="nav-link">Search</router-link></b-button>

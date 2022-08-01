@@ -97,7 +97,7 @@ export default {
 .recipe-preview {
   display:inline-block;
   width: 100%;
-  height: 380px;
+  height: 400px;
   position: relative;
   margin: 5px 5px;
 
@@ -117,8 +117,8 @@ export default {
    right:0;
 }
 .card {
-  width: 280px;
-  height: 380px;
+  width: 300px;
+  height: 400px;
   position: relative;
   margin: 10px 10px;
 }

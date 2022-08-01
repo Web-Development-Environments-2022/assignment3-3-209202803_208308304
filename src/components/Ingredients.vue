@@ -1,42 +1,27 @@
 <template>
-    <div class="container">
-        <div>
-            <b-input-group class="big-2">
-                <b-form-input 
-                type="text"
-                placeholder="name"
-                v-model="$v.form.name.$model"
-                :state="validateState('name')"
-                @change="updateName"
-                ></b-form-input>
-                <b-form-input 
-                type="text" 
-                placeholder="amount"
-                v-model="$v.form.amount.$model"
-                :state="validateState('amount')"
-                @change="updateAmount"
-                ></b-form-input>
-                <b-form-select
-                    v-model="metric_selected"
-                    :options="metric_options"
-                    @change="updateMetric"
-                    required
-                ></b-form-select>
-                <b-form-invalid-feedback v-if="!$v.form.name.required">
-                Name is required
-                </b-form-invalid-feedback>
-                <b-form-invalid-feedback v-if="!$v.form.name.alpha">
-                Name can include only alphabetic letters
-                </b-form-invalid-feedback>
-                <b-form-invalid-feedback v-if="!$v.form.amount.required">
-                Amount is required
-                </b-form-invalid-feedback>
-                <b-form-invalid-feedback v-if="!$v.form.amount.numeric">
-                Amount can include only numeric characters
-                </b-form-invalid-feedback>
-            </b-input-group>
-        </div>
+  <div class="container">
+    <div>
+      <b-input-group class="big-2">
+        <b-form-input type="text" placeholder="name" v-model="$v.form.name.$model" :state="validateState('name')"
+          @change="updateName"></b-form-input>
+        <b-form-input type="text" placeholder="amount" v-model="$v.form.amount.$model" :state="validateState('amount')"
+          @change="updateAmount"></b-form-input>
+        <b-form-select v-model="metric_selected" :options="metric_options" @change="updateMetric"></b-form-select>
+        <b-form-invalid-feedback v-if="!$v.form.name.required">
+          Name is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.name.alphaAndSpaceValidator">
+          Name can include only alphanumeric letters and spaces
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.amount.required">
+          Amount is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.amount.numeric">
+          Amount can include only numeric characters
+        </b-form-invalid-feedback>
+      </b-input-group>
     </div>
+  </div>
 </template>
 
 <script>
@@ -44,28 +29,17 @@ import {
   required,
   alpha,
   numeric,
+  helpers
 } from "vuelidate/lib/validators";
+const alphaAndSpaceValidator = helpers.regex('alphaNumSpace', /^[a-zA-Z\-\s]+$/);
 
 export default {
   name: "Ingredients",
-    props: {
+  props: {
     ingredient: {
       type: Object,
       required: true,
-        // name: {
-        // type: String,
-        //   required: true
-        // },
-        // amount: {
-        // type:String,
-        //   required: true
-        // },
-        // metric: {
-        // type:String,
-        //   required: true,
-        // default: null
-        // },
-    },    
+    },
 
   },
   data() {
@@ -76,15 +50,15 @@ export default {
       },
       metric_selected: null,
       metric_options: [
-        { text: 'metric', value: null, disabled: true},
-        { text: 'grams', value: 'grams'},
-        { text: 'ml', value: 'ml'},
-        { text: 'units', value: ''},
+        { text: 'metric', value: null, disabled: true },
+        { text: 'grams', value: 'grams' },
+        { text: 'ml', value: 'ml' },
+        { text: 'units', value: '' },
         { text: 'cups', value: 'cups' },
         { text: 'tablespoon', value: 'tablespoon' },
-        { text: 'teaspoon', value: 'teaspoon'},
-        { text: 'pinch', value: 'pinch'},
-        
+        { text: 'teaspoon', value: 'teaspoon' },
+        { text: 'pinch', value: 'pinch' },
+
       ],
       errors: [],
       validated: false
@@ -94,7 +68,7 @@ export default {
     form: {
       name: {
         required,
-        alpha
+        alphaAndSpaceValidator
       },
       amount: {
         required,
@@ -107,14 +81,14 @@ export default {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
     },
-    updateName(){
-        this.ingredient.name = this.$v.form.name.$model;
+    updateName() {
+      this.ingredient.name = this.$v.form.name.$model;
     },
-    updateAmount(){
-        this.ingredient.amount = parseInt(this.$v.form.amount.$model);
+    updateAmount() {
+      this.ingredient.amount = parseInt(this.$v.form.amount.$model);
     },
-    updateMetric(){
-        this.ingredient.metric = this.metric_selected;
+    updateMetric() {
+      this.ingredient.metric = this.metric_selected;
     }
   }
 };

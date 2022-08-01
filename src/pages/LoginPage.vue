@@ -110,7 +110,13 @@ export default {
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
-        this.$router.push("/");
+        if(this.$router.currentRoute.path!="/"){
+          this.$router.push("/");
+        }
+        else{
+          this.$emit('login')
+        }
+       
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
@@ -133,5 +139,7 @@ export default {
 <style lang="scss" scoped>
 .container {
   max-width: 400px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>
