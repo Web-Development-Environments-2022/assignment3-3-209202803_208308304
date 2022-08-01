@@ -11,7 +11,7 @@
           Name is required
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.name.alphaAndSpaceValidator">
-          Name can include only alphanumeric letters and spaces
+          Name can include only alphabetic letters and spaces
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.amount.required">
           Amount is required

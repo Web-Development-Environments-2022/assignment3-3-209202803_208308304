@@ -11,7 +11,6 @@ const router = new VueRouter({
 
 import VueCookies from "vue-cookies"
 Vue.use(VueCookies);
-// axios.defaults.withCredentials = true;
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -32,6 +31,7 @@ import {
   IconsPlugin,
   ModalPlugin,
   InputGroupPlugin,
+  FormTextareaPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -50,15 +50,16 @@ import {
   IconsPlugin,
   ModalPlugin,
   InputGroupPlugin,
+  FormTextareaPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
 axios.interceptors.request.use(
-  function(config) {
+  function (config) {
     // Do something before request is sent
     return config;
   },
-  function(error) {
+  function (error) {
     // Do something with request error
     return Promise.reject(error);
   }
@@ -66,11 +67,11 @@ axios.interceptors.request.use(
 
 // Add a response interceptor
 axios.interceptors.response.use(
-  function(response) {
+  function (response) {
     // Do something with response data
     return response;
   },
-  function(error) {
+  function (error) {
     // Do something with response error
     return Promise.reject(error);
   }
@@ -82,6 +83,10 @@ Vue.config.productionTip = false;
 
 const shared_data = {
   username: localStorage.username,
+  server_domain: "http://localhost:3000",  // address for server side tests: https://test-for-3-2.herokuapp.com
+  search_result: localStorage.search_result,
+  query: localStorage.search_query,
+
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
@@ -92,9 +97,23 @@ const shared_data = {
     localStorage.removeItem("username");
     this.username = undefined;
   },
+  setSearchResult(search_query, search_result) {
+    localStorage.setItem('search_query', JSON.stringify(search_query));
+    localStorage.setItem('search_result', JSON.stringify(search_result));
+    this.search_result = search_result;
+    this.search_query = search_query;
+    console.log("search saved");
+  },
+  getSearchResult() {
+    console.log("get search");
+    return JSON.parse(localStorage.getItem('search_result'));
+  },
+  getSearchQuery() {
+    console.log("get query");
+    return JSON.parse(localStorage.getItem('search_query'));
+  }
 };
 console.log(shared_data);
-// Vue.prototype.$root.store = shared_data;
 
 new Vue({
   router,

@@ -4,7 +4,7 @@
       <div class="recipe-header mt-3 mb-4">
         <h1>{{ recipe.title }}</h1>
         <div v-if="image_load">
-            <img class="center" :src="recipe.image">
+          <img class="center" :src="recipe.image">
         </div>
         <div v-else>
           <img class="center" src="../assets/default_recipe_image.jpg">
@@ -14,14 +14,13 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-             <div>Servings amount: {{recipe.servings}}</div>
+              <div>Servings: {{ recipe.servings }}</div>
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.popularity }} likes</div>
             </div>
             Ingredients:
             <ul>
-              <li v-for="(r, index) in recipe.ingredients"
-                :key="index">
+              <li v-for="(r, index) in recipe.ingredients" :key="index">
                 {{ r.amount }} {{ r.metric }} {{ r.name }}
               </li>
             </ul>
@@ -36,11 +35,6 @@
           </div>
         </div>
       </div>
-      <!-- <pre>
-      {{ $route.params }}
-      {{ recipe }}
-    </pre
-      > -->
     </div>
   </div>
 </template>
@@ -60,13 +54,8 @@ export default {
 
       try {
         response = await this.axios.put(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          //this.$root.store.server_domain + "/recipes/info",
-          `http://localhost:3000/recipes/${this.$route.params.recipeId}`,{},
-           { withCredentials: true }
-          // {
-          //   params: { recipeId: this.$route.params.recipeId }
-          // }
+          this.$root.store.server_domain + `/recipes/${this.$route.params.recipeId}`, {},
+          { withCredentials: true }
         );
 
         // console.log("response.status", response.status);
@@ -81,10 +70,10 @@ export default {
         Preview,
         servings,
         ingredients,
-        instructions,    
+        instructions,
       } = response.data;
-      
-      let {recipe_id, title, readyInMinutes, image, popularity, vegan, vegetarian, glutenFree, isFavorite, isWatched } = Preview;
+
+      let { recipe_id, title, readyInMinutes, image, popularity, vegan, vegetarian, glutenFree, isFavorite, isWatched } = Preview;
 
       let _recipe = {
         recipe_id,
@@ -106,12 +95,13 @@ export default {
     } catch (error) {
       console.log(error);
     }
-    try{
-      if(this.recipe.image){
-      this.axios.get(this.recipe.image).then((i) => {
-        this.image_load = true;
-      },() => {});}
-    }catch(err){}
+    try {
+      if (this.recipe.image) {
+        this.axios.get(this.recipe.image).then((i) => {
+          this.image_load = true;
+        }, () => { });
+      }
+    } catch (err) { }
   }
 };
 </script>
@@ -120,15 +110,18 @@ export default {
 .wrapper {
   display: flex;
 }
+
 .wrapped {
   width: 50%;
 }
+
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
 }
+
 /* .recipe-header{
 
 } */

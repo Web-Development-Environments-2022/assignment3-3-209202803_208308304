@@ -1,14 +1,13 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-      <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center"  :recipes="random_recipes"/>
-      <div v-if="!$root.store.username" class="float-left">
-        <LoginPage @login="getWatchedRecipes"></LoginPage>
-      </div>
-      <div v-else>
-        <RecipePreviewList title="Last Viewed Recipes:" class="RandomRecipes center"  :recipes="watched_recipes"/>
-      
-      </div>
+    <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center" :recipes="random_recipes" />
+    <div v-if="!$root.store.username" class="float-left">
+      <LoginPage @login="getWatchedRecipes"></LoginPage>
+    </div>
+    <div v-else>
+      <RecipePreviewList title="Last Viewed Recipes:" class="RandomRecipes center" :recipes="watched_recipes" />
+    </div>
   </div>
 </template>
 
@@ -30,16 +29,14 @@ export default {
   },
 
   created() {
-    // this.getRandomRecipes();
+    this.getRandomRecipes();
     this.getWatchedRecipes();
   },
   methods: {
     async getRandomRecipes() {
       try {
         const response = await this.axios.get(
-          //this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-          "http://localhost:3000/recipes/random",
+          this.$root.store.server_domain + "/recipes/random",
           { withCredentials: true }
         );
 
@@ -49,14 +46,12 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }, 
+    },
     async getWatchedRecipes() {
-            console.log("watched")
+      console.log("watched")
       try {
         const response = await this.axios.get(
-          //this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-          "http://localhost:3000/recipes/watched",
+          this.$root.store.server_domain + "/recipes/watched",
           { withCredentials: true }
         );
 
@@ -75,16 +70,4 @@ export default {
 .RandomRecipes {
   margin: 10px 0 10px;
 }
-.blur {
-  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
-  filter: blur(2px);
-}
-::v-deep .blur .recipe-preview {
-  pointer-events: none;
-  cursor: default;
-}
-// .left{
-//   align-items: baseline;
-//    left: 10px;
-// }
 </style>

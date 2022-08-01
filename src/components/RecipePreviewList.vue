@@ -4,7 +4,7 @@
       {{ title }}
       <slot></slot>
     </h3>
-    <b-row>
+    <b-row class="float-left">
       <b-col v-for="r in recipes" :key="r.Preview.recipe_id">
             <RecipePreview class="recipePreview" :recipe="r.Preview" />
       </b-col>

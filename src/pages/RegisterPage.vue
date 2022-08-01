@@ -2,18 +2,9 @@
   <div class="container">
     <h1 class="title">Register</h1>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
-      <b-form-group
-        id="input-group-username"
-        label-cols-sm="3"
-        label="Username:"
-        label-for="username"
-      >
-        <b-form-input
-          id="username"
-          v-model="$v.form.username.$model"
-          type="text"
-          :state="validateState('username')"
-        ></b-form-input>
+      <b-form-group id="input-group-username" label-cols-sm="3" label="Username:" label-for="username">
+        <b-form-input id="username" v-model="$v.form.username.$model" type="text" :state="validateState('username')">
+        </b-form-input>
         <b-form-invalid-feedback v-if="!$v.form.username.required">
           Username is required
         </b-form-invalid-feedback>
@@ -25,75 +16,39 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
-          id="input-group-firstname"
-          label-cols-sm="3"
-          label="First Name:"
-          label-for="firstname"
-        >
-          <b-form-input
-            id="firstname"
-            v-model="$v.form.firstname.$model"
-            type="text"
-            :state="validateState('firstname')"
-          ></b-form-input>
-          <b-form-invalid-feedback v-if="!$v.form.firstname.required">
-            First name is required
-          </b-form-invalid-feedback>
-          <b-form-invalid-feedback v-if="!$v.form.firstname.alpha">
+      <b-form-group id="input-group-firstname" label-cols-sm="3" label="First Name:" label-for="firstname">
+        <b-form-input id="firstname" v-model="$v.form.firstname.$model" type="text" :state="validateState('firstname')">
+        </b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.firstname.required">
+          First name is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.firstname.alpha">
           First name can include only alphabetic letters
         </b-form-invalid-feedback>
-        </b-form-group>
+      </b-form-group>
 
-        <b-form-group
-          id="input-group-lastname"
-          label-cols-sm="3"
-          label="Last Name:"
-          label-for="lastname"
-        >
-          <b-form-input
-            id="lastname"
-            v-model="$v.form.lastname.$model"
-            type="text"
-            :state="validateState('lastname')"
-          ></b-form-input>
-          <b-form-invalid-feedback v-if="!$v.form.lastname.required">
-            Last name is required
-          </b-form-invalid-feedback>
-          <b-form-invalid-feedback v-if="!$v.form.lastname.alpha">
+      <b-form-group id="input-group-lastname" label-cols-sm="3" label="Last Name:" label-for="lastname">
+        <b-form-input id="lastname" v-model="$v.form.lastname.$model" type="text" :state="validateState('lastname')">
+        </b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.lastname.required">
+          Last name is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.lastname.alpha">
           Last name can include only alphabetic letters
         </b-form-invalid-feedback>
-        </b-form-group>
+      </b-form-group>
 
-      <b-form-group
-        id="input-group-country"
-        label-cols-sm="3"
-        label="Country:"
-        label-for="country"
-      >
-        <b-form-select
-          id="country"
-          v-model="$v.form.country.$model"
-          :options="countries"
-          :state="validateState('country')"
-        ></b-form-select>
+      <b-form-group id="input-group-country" label-cols-sm="3" label="Country:" label-for="country">
+        <b-form-select id="country" v-model="$v.form.country.$model" :options="countries"
+          :state="validateState('country')"></b-form-select>
         <b-form-invalid-feedback>
           Country is required
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-Password"
-        label-cols-sm="3"
-        label="Password:"
-        label-for="password"
-      >
-        <b-form-input
-          id="password"
-          type="password"
-          v-model="$v.form.password.$model"
-          :state="validateState('password')"
-        ></b-form-input>
+      <b-form-group id="input-group-Password" label-cols-sm="3" label="Password:" label-for="password">
+        <b-form-input id="password" type="password" v-model="$v.form.password.$model"
+          :state="validateState('password')"></b-form-input>
         <b-form-invalid-feedback v-if="!$v.form.password.required">
           Password is required
         </b-form-invalid-feedback>
@@ -101,88 +56,48 @@
           Your password should be <strong>strong</strong>. <br />
           For that, your password should be also:
         </b-form-text>
-        <b-form-invalid-feedback
-          v-if="$v.form.password.required && !$v.form.password.length"
-        >
+        <b-form-invalid-feedback v-if="$v.form.password.required && !$v.form.password.length">
           Have length between 5-10 characters long
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-confirmedPassword"
-        label-cols-sm="3"
-        label="Confirm Password:"
-        label-for="confirmedPassword"
-      >
-        <b-form-input
-          id="confirmedPassword"
-          type="password"
-          v-model="$v.form.confirmedPassword.$model"
-          :state="validateState('confirmedPassword')"
-        ></b-form-input>
+      <b-form-group id="input-group-confirmedPassword" label-cols-sm="3" label="Confirm Password:"
+        label-for="confirmedPassword">
+        <b-form-input id="confirmedPassword" type="password" v-model="$v.form.confirmedPassword.$model"
+          :state="validateState('confirmedPassword')"></b-form-input>
         <b-form-invalid-feedback v-if="!$v.form.confirmedPassword.required">
           Password confirmation is required
         </b-form-invalid-feedback>
-        <b-form-invalid-feedback
-          v-else-if="!$v.form.confirmedPassword.sameAsPassword"
-        >
+        <b-form-invalid-feedback v-else-if="!$v.form.confirmedPassword.sameAsPassword">
           The confirmed password is not equal to the original password
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-form-group
-          id="input-group-email"
-          label-cols-sm="3"
-          label="Email:"
-          label-for="email"
-        >
-          <b-form-input
-            id="email"
-            v-model="$v.form.email.$model"
-            type="email"
-            :state="validateState('email')"
-          ></b-form-input>
-          <b-form-invalid-feedback v-if="!$v.form.email.required">
-            Email is required
-          </b-form-invalid-feedback>
-          <b-form-invalid-feedback v-if="!$v.form.email.email">
-            Email should be in the following format: "xxx@xxx.xxx"
-          </b-form-invalid-feedback>
-        </b-form-group>
+      <b-form-group id="input-group-email" label-cols-sm="3" label="Email:" label-for="email">
+        <b-form-input id="email" v-model="$v.form.email.$model" type="email" :state="validateState('email')">
+        </b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.email.required">
+          Email is required
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.email.email">
+          Email should be in the following format: "xxx@xxx.xxx"
+        </b-form-invalid-feedback>
+      </b-form-group>
 
       <b-button type="reset" variant="danger">Reset</b-button>
-      <b-button
-        type="submit"
-        variant="primary"
-        style="width:250px;"
-        class="ml-5 w-75"
-        >Register</b-button
-      >
+      <b-button type="submit" variant="primary" style="width:250px;" class="ml-5 w-75">Register</b-button>
       <div class="mt-2">
         You have an account already?
         <router-link to="login"> Log in here</router-link>
       </div>
     </b-form>
-    <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
+    <b-alert class="mt-2" v-if="form.submitError" variant="warning" dismissible show>
       Register failed: {{ form.submitError }}
     </b-alert>
-    <!-- <b-card class="mt-3 md-3" header="Form Data Result">
-      <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
-      <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
-    </b-card> -->
   </div>
 </template>
 
 <script>
-// console.log(this.$root)
-// console.log(this.$root.store)
-// console.log(this.$root.store.server_domain)
 import countries from "../assets/countries";
 import {
   required,
@@ -245,9 +160,7 @@ export default {
     }
   },
   mounted() {
-    // console.log("mounted");
     this.countries.push(...countries);
-    // console.log($v);
   },
   methods: {
     validateState(param) {
@@ -257,9 +170,7 @@ export default {
     async Register() {
       try {
         const response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/user/Register",
-          //this.$root.store.server_domain + "/auth/register",
-          "http://localhost:3000/auth/register",
+          this.$root.store.server_domain + "/auth/register",
           {
             username: this.form.username,
             firstname: this.form.firstname,
@@ -270,19 +181,16 @@ export default {
           }
         );
         this.$router.push("/auth/login");
-        // console.log(response);
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
     },
     onRegister() {
-      // console.log("register method called");
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("register method go");
       this.Register();
     },
     onReset() {

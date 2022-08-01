@@ -2,11 +2,12 @@
   <div class="container">
     <h1 class="title">Search Page</h1>
     <nav class="navbar navbar-light bg-light">
-      <form class="form-inline" v-on:submit="getSearchRecipes">
-        <input v-model= search_query id="search_query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <form class="form-inline" @submit.prevent="getSearchRecipes">
+        <input v-model=search_query id="search_query" class="form-control mr-sm-2" type="search" placeholder="Search"
+          aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
-      <b-dropdown no-caret id="filter-btn" text="Filter By:" class="m-2" >
+      <b-dropdown no-caret id="filter-btn" text="Filter By:" class="m-2">
         <b-dropdown-item-button @click="noFilters" class="dropdown-group">
           No Filters
         </b-dropdown-item-button>
@@ -14,12 +15,8 @@
         <b-dropdown-group class="dropdown-group" header="Cuisine">
           <template>
             <div>
-                <b-form-checkbox-group
-                  id="checkbox-group-1"
-                  v-model="cuisine_selected"
-                  :options="cuisine_options"
-                  name="cuisine-group"
-                ></b-form-checkbox-group>
+              <b-form-checkbox-group id="checkbox-group-1" v-model="cuisine_selected" :options="cuisine_options"
+                name="cuisine-group"></b-form-checkbox-group>
             </div>
           </template>
         </b-dropdown-group>
@@ -27,12 +24,8 @@
         <b-dropdown-group class="dropdown-group" header="Diet">
           <template>
             <div>
-                <b-form-checkbox-group
-                  id="checkbox-group-2"
-                  v-model="diet_selected"
-                  :options="diet_options"
-                  name="diet-group"
-                ></b-form-checkbox-group>
+              <b-form-checkbox-group id="checkbox-group-2" v-model="diet_selected" :options="diet_options"
+                name="diet-group"></b-form-checkbox-group>
             </div>
           </template>
         </b-dropdown-group>
@@ -40,30 +33,21 @@
         <b-dropdown-group class="dropdown-group" header="Intolerances">
           <template>
             <div>
-                <b-form-checkbox-group
-                  id="checkbox-group-3"
-                  v-model="intolerances_selected"
-                  :options="intolerances_options"
-                  name="intolerances-group"
-                ></b-form-checkbox-group>
+              <b-form-checkbox-group id="checkbox-group-3" v-model="intolerances_selected"
+                :options="intolerances_options" name="intolerances-group"></b-form-checkbox-group>
             </div>
           </template>
         </b-dropdown-group>
       </b-dropdown>
-      <b-form-radio-group
-        v-model="result_num_selected"
-        :options="result_num_options"
-        class="mb-3"
-        value-field="item"
-        text-field="name"
-        disabled-field="notEnabled"
-      ></b-form-radio-group>
+      <div>
+        <p>Number of results: </p>
+        <b-form-radio-group v-model="result_num_selected" :options="result_num_options" class="mb-3">
+        </b-form-radio-group>
+      </div>
     </nav>
-  <p v-if="no_result"> sorry, no result match came back</p>
-  <RecipePreviewList title="Results:" class="SearchResult center"  :recipes="search_result.slice(0, 3)"/>
-  <RecipePreviewList v-for="i in row_num" :key="i"  title="" class="SearchResult center"  :recipes="search_result.slice(i*3, i*3+3)"/>
-  <!-- <RecipePreviewList title="" class="SearchResult center"  :recipes="search_result.slice(5, 10)"/>
-  <RecipePreviewList title="" class="SearchResult center"  :recipes="search_result.slice(10, 15)"/> -->
+    <RecipePreviewList :title="title" class="SearchResult center" :recipes="search_result.slice(0, 3)" />
+    <RecipePreviewList v-for="i in row_num" :key="i" title="" class="SearchResult center"
+      :recipes="search_result.slice(i * 3, i * 3 + 3)" />
   </div>
 </template>
 
@@ -77,16 +61,17 @@ export default {
 
   data() {
     return {
-      search_query:"",
+      search_query: "",
       search_result: [],
       no_result: false,
+      title: "",
       row_num: 1,
       result_num_selected: '5',
       result_num_options: [
-        { item: '5', name: '5' },
-        { item: '10', name: '10' },
-        { item: '15', name: '15' }
-        ],
+        { text: '5', value: '5' },
+        { text: '10', value: '10' },
+        { text: '15', value: '15' }
+      ],
       cuisine_selected: [],
       cuisine_options: [
         { text: 'African', value: 'African' },
@@ -147,50 +132,64 @@ export default {
       ],
     };
   },
+  created() {
+    const storedSearch = this.$root.store.getSearchResult()
+    if (storedSearch) {
+      this.search_result = storedSearch;
+    }
+    const storedQuery = this.$root.store.getSearchQuery()
+    if (storedQuery) {
+      this.title = storedQuery;
+    }
+  },
   methods: {
     async getSearchRecipes() {
       console.log(this.result_num_selected)
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/search",
+          this.$root.store.server_domain + "/search",
           {
-            params:{
-              // query: search_query.value,
+            params: {
               query: this.search_query,
               cuisinesFilter: this.cuisine_selected.join(','),
               dietsFilter: this.diet_selected.join(','),
               intolerancesFilter: this.intolerances_selected.join(','),
               numOfResults: this.result_num_selected
             }
-          }          
+          }
         );
         this.search_result = response.data;
-        if(!this.search_result.length){
+
+        if (!this.search_result.length) {
           this.no_result = true;
+          this.title = "Sorry, no result match for: " + this.search_query;
         }
-        this.row_num = Math.ceil(this.search_result.length/3);
-        noFilters()
+        else {
+          this.no_result = false;
+          this.title = "Results for " + this.search_query + ":"
+        }
+        this.$root.store.setSearchResult(this.title, this.search_result);
+
+        this.row_num = Math.ceil(this.search_result.length / 3);
+        this.noFilters()
       } catch (error) {
         console.log(error);
       }
     },
-    noFilters(){
-      this.cuisine_selected= [];
-      this.diet_selected= [];
-      this.intolerances_selected= [];
-    }
+    noFilters() {
+      this.cuisine_selected = [];
+      this.diet_selected = [];
+      this.intolerances_selected = [];
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-// .RandomRecipes {
-//   margin: 10px 0 10px;
-// }
-.dropdown-group{
+.dropdown-group {
   width: 300px
 }
 
-.dropdown-group header{
+.dropdown-group header {
   font-size: 16px;
 
 }
