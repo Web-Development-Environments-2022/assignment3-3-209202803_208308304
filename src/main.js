@@ -14,6 +14,7 @@ Vue.use(VueCookies);
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import VueToast from 'vue-toast-notification';
 import {
   FormGroupPlugin,
   FormPlugin,
@@ -53,6 +54,7 @@ import {
   FormTextareaPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
+Vue.use(VueToast);
 
 axios.interceptors.request.use(
   function (config) {
@@ -73,6 +75,13 @@ axios.interceptors.response.use(
   },
   function (error) {
     // Do something with response error
+    // if (!error.response) {
+    //   //network error
+    //   // Vue.$toast.open("Sorry, there was a Network Error");
+    //   router.replace("/notFound");
+    //   console.log('No network connection');
+    // }
+
     return Promise.reject(error);
   }
 );
@@ -91,11 +100,24 @@ const shared_data = {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
+    setTimeout(() => { this.logout() }, 24 * 60 * 60 * 1000);
+    console.log("timer is set for 24h")
   },
-  logout() {
-    console.log("logout");
-    localStorage.removeItem("username");
-    this.username = undefined;
+  async logout() {
+    try {
+      const response = await axios.put(
+        this.server_domain + "/auth/logout", {}, { withCredentials: true }
+      );
+      console.log("logout");
+      localStorage.removeItem("username");
+      this.username = undefined;
+      return true;
+    } catch (err) {
+      console.log(err.response);
+      // this.form.submitError = err.response.data.message;
+      return false;
+    }
+
   },
   setSearchResult(search_query, search_result) {
     localStorage.setItem('search_query', JSON.stringify(search_query));

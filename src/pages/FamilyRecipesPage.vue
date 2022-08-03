@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">Family Recipes:</h1>
-    <h3 v-if=!family_recipes.length>You haven't posted any family recipes yet</h3>
+    <h3 v-if=!family_recipes.length> {{ title }} </h3>
     <div class="familyCard" v-for="(recipe, index) in family_recipes" :key="index">
       <div v-if="recipe">
         <div class="recipe-header mt-3 mb-4">
@@ -50,6 +50,7 @@ export default {
     return {
       family_recipes: [],
       image_load: false,
+      title: "",
     };
   },
   async created() {
@@ -60,7 +61,9 @@ export default {
       );
 
       this.family_recipes = response.data;
-      console.log(this.family_recipes);
+      if (!this.family_recipes.length) {
+        this.title = "     You haven't posted any family recipes yet"
+      }
     } catch (error) {
       console.log("error.response.status", error.response.status);
       this.$router.replace("/NotFound");
@@ -99,5 +102,9 @@ export default {
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px 10px 10px 10px;
+}
+
+h3{
+  margin: 10px;
 }
 </style>

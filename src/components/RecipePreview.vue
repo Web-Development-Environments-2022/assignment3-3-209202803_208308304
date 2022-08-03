@@ -12,19 +12,22 @@
     </div>
     <div class="card-body" @click="viewRecipe">
       <h5 class="card-title">{{ recipe.title }}</h5>
-      <p class="card-text">{{ recipe.readyInMinutes }} minutes</p>
-      <p class="card-text">{{ recipe.popularity }} likes</p>
+      <ul >
+        <li class="card-text">{{ recipe.readyInMinutes }} minutes</li>
+        <li class="card-text"> | </li>
+        <li class="card-text">{{ recipe.popularity }} likes</li>
+     </ul>
     </div>
     <div>
       <b-row>
         <b-col>
-          <img v-if="recipe.vegan" class="icon" src="../assets/vegan.jpeg">
+          <img v-if="recipe.vegan" class="icon" src="../assets/vegan.png">
         </b-col>
         <b-col>
-          <img v-if="recipe.vegetarian" class="icon" src="../assets/vegetarian.jpeg">
+          <img v-if="recipe.vegetarian" class="icon" src="../assets/vegetarian.png">
         </b-col>
         <b-col>
-          <img v-if="recipe.glutenFree" class="icon" src="../assets/glutenfree.jpeg">
+          <img v-if="recipe.glutenFree" class="icon" style="width:77%" src="../assets/glutenfree.png">
         </b-col>
       </b-row>
     </div>
@@ -155,22 +158,30 @@ export default {
   text-overflow: ellipsis; */
 }
 
-.card .wrapper .card-text {
+.card-text {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
   -webkit-flex-grow: 1;
-  flex-grow: 1;
-  width: 90px;
-  display: table-cell;
-  text-align: center;
+  flex-grow: 1; 
+  display: inline;
+  text-align: left;
+  align-items: left;
+  letter-spacing: 0.5px;
+  word-spacing: 3px;
+
 }
 
+ul { list-style: none outside none; margin:0; padding: 0; }
+li { float: left; margin: 0 10px; }
+
 .icon {
-  padding-bottom: 10px;
-  width: 100%;
+  margin-bottom: 5px;
+  width: 100%; 
   bottom: 0px;
+
 }
+
 </style>

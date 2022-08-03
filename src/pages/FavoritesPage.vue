@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">Favorite Recipes:</h1>
-    <h3 v-if=!favorite_recipes.length>You haven't liked any recipes yet</h3>
-    <RecipePreviewList title="" class="FavoriteRecipes center" :recipes="favorite_recipes.slice(0, 3)" />
+    <RecipePreviewList :title="title" class="FavoriteRecipes center" :recipes="favorite_recipes.slice(0, 3)" />
     <RecipePreviewList v-for="i in row_num" :key="i" title="" class="FavoriteRecipes center"
       :recipes="favorite_recipes.slice(i * 3, i * 3 + 3)" />
   </div>
@@ -20,6 +19,7 @@ export default {
     return {
       favorite_recipes: [],
       row_num: 1,
+      title: "",
     };
   },
 
@@ -29,9 +29,11 @@ export default {
         this.$root.store.server_domain + "/users/favorites",
         { withCredentials: true }
       );
-
       this.favorite_recipes = response.data;
       this.row_num = Math.ceil(this.favorite_recipes.length / 3);
+      if(!this.favorite_recipes.length){
+        this.title ="You haven't liked any recipes yet"
+      }
     } catch (error) {
       console.log(error);
     }

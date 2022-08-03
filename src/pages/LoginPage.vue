@@ -61,7 +61,6 @@ export default {
     },
     async Login() {
       try {
-
         const response = await this.axios.post(
           this.$root.store.server_domain + "/auth/login",
           {
@@ -80,8 +79,13 @@ export default {
         }
 
       } catch (err) {
-        console.log(err.response);
-        this.form.submitError = err.response.data.message;
+        if (!err.response) {
+          this.$root.toast("Login-fail", "Something went wrong with our server", "warning");
+        }
+        else {
+          console.log(err.response);
+          this.form.submitError = err.response.data.message;
+        }
       }
     },
     onLogin() {
