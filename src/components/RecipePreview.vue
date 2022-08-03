@@ -7,9 +7,8 @@
       <div v-else>
         <img @click="viewRecipe" class="card-img-top" src="../assets/default_recipe_image.jpg">
       </div>
-      <b-icon @click="addToFavorite" class="likeIcon" variant="info" :icon="favorite" font-scale="2.5"
-        :animation="likeAnima"></b-icon>
-      <b-icon class="watchedIcon" variant="info" :icon="watched" font-scale="2.5"></b-icon>
+      <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="2.5" :animation="likeAnima"></b-icon>
+      <b-icon class="watchedIcon" :icon="watched" font-scale="2.5"></b-icon>
     </div>
     <div class="card-body" @click="viewRecipe">
       <h5 class="card-title">{{ recipe.title }}</h5>
@@ -111,12 +110,14 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
+  color: #568A9F;
 }
 
 .watchedIcon {
   position: absolute;
   top: 50px;
   right: 0;
+  color: #568A9F;
 }
 
 .card {
@@ -124,12 +125,13 @@ export default {
   height: 400px;
   position: relative;
   margin: 10px 0px;
+  background-color: #F7C272;
 }
 
 .card .card-body :hover {
-  color: rgb(37, 16, 157);
+  color: #C26E32;
   font-style: bold;
-  opacity: 0.3;
+  /* opacity: 0.3; */
 }
 
 .card-img-top {
@@ -137,7 +139,7 @@ export default {
 }
 
 .wrapper:hover .card-img-top {
-  opacity: 0.3;
+  opacity: 0.7;
 
 }
 
@@ -153,7 +155,7 @@ export default {
   text-overflow: ellipsis; */
 }
 
-.card .card-text {
+.card .wrapper .card-text {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;

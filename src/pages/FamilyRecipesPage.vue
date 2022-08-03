@@ -1,10 +1,11 @@
 <template>
   <div class="container">
     <h1 class="title">Family Recipes:</h1>
+    <h3 v-if=!family_recipes.length>You haven't posted any family recipes yet</h3>
     <div class="familyCard" v-for="(recipe, index) in family_recipes" :key="index">
       <div v-if="recipe">
         <div class="recipe-header mt-3 mb-4">
-          <h1>{{ recipe.title }}</h1>
+          <h3>{{ recipe.title }}</h3>
           <div v-if="image_load">
             <img class="center" :src="recipe.image">
           </div>
@@ -99,8 +100,4 @@ export default {
   margin-bottom: 20px;
   padding: 10px 10px 10px 10px;
 }
-
-/* .recipe-header{
-
-} */
 </style>

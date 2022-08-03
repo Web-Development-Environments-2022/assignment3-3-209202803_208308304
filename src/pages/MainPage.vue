@@ -2,6 +2,8 @@
   <div class="container">
     <h1 class="title">Main Page</h1>
     <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center" :recipes="random_recipes" />
+    <br>
+    <br>
     <div v-if="!$root.store.username" class="float-left">
       <LoginPage @login="getWatchedRecipes"></LoginPage>
     </div>

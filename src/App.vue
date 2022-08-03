@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar id="navbar" type="dark">
       <b-navbar-brand href="#">Recipes</b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
@@ -15,25 +15,23 @@
             </b-navbar-nav>
           </span>
           <span v-else>
-            <b-nav-item-dropdown text="Personal" class="nav-link">
-              <b-dropdown-item>
-                <router-link :to="{ name: 'favorites' }" class="b-dropdown-item">Favorites <b-icon-heart></b-icon-heart>
-                </router-link>
-              </b-dropdown-item>
-              <b-dropdown-item>
-                <router-link :to="{ name: 'myrecipes' }" class="b-dropdown-item">My Recipes</router-link>
-              </b-dropdown-item>
-              <b-dropdown-item>
-                <router-link :to="{ name: 'familyrecipes' }" class="b-dropdown-item">Family Recipes</router-link>
-              </b-dropdown-item>
-            </b-nav-item-dropdown>
-          </span>
-          <span v-if="$root.store.username">
-            <b-nav-item @click="Logout" class="nav-link">Logout</b-nav-item>
-          </span>
-          <span v-if="$root.store.username">
-            <router-link :to="{ name: 'addRecipe' }" @click="$bvModal.show('my-modal')" class="nav-link">Add Recipe
-            </router-link>
+            <b-navbar-nav>
+              <b-nav-item-dropdown text="Personal" class="nav-link" id="dropdown">
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'favorites' }" class="b-dropdown-item">Favorites <b-icon-heart>
+                    </b-icon-heart>
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'myrecipes' }" class="b-dropdown-item">My Recipes</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link :to="{ name: 'familyrecipes' }" class="b-dropdown-item">Family Recipes</router-link>
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
+              <router-link :to="{ name: 'addRecipe' }" id="modal-link" class="nav-link">Add Recipe</router-link>
+              <b-nav-item @click="Logout" class="nav-link">Logout</b-nav-item>
+            </b-navbar-nav>
           </span>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" right>
@@ -41,6 +39,7 @@
             <router-link :to="{ name: 'search' }" class="nav-link">Search</router-link>
           </b-button>
           <span v-if="!$root.store.username">
+            <!-- <p>Hello Guest</p> (to make it no part of b-nav-item style)-->
             <b-nav-item>Hello Guest</b-nav-item>
           </span>
           <span v-else>
@@ -85,22 +84,40 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
+  background-color: #AFBED5;
+
+  h1 {
+    margin-top: 10px;
+  }
+
+  h3 {
+    margin-top: 10px;
+  }
+
+  button {
+    background-color: #568A9F;
+    border: none;
+    color: white;
+  }
+
+  //we can control from here on object globaly
 }
 
-#b-navbar {
-  padding: 30px;
+#navbar {
+  // position: sticky;
+  color: #568A9F;
+  background-color: #568A9F;
+
 }
 
-#b-navbar a {
-  font-weight: bold;
-  color: #ffffff;
+#modal-link {
+  margin-top: 7.5px
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-.router-link-exact-active {
-  color: #462fc9;
+</style>
+<style lang="scss" scoped>
+#dropdown {
+  //not working
+  background-color: #568A9F;
+  color: #2c3e50;
 }
 </style>

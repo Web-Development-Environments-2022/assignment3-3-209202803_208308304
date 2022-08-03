@@ -2,8 +2,8 @@
   <div class="container">
     <div>
       <!-- <b-button v-b-modal.recipe-modal>Add Recipe</b-button> -->
-      <b-modal @hide="exit" ref="recipe-modal" id="recipe-modal" hide-footer title="Add New Recipe">
-        <b-form @submit.prevent="onSave">
+      <b-modal @hide="exit" class="modal" ref="recipe-modal" id="recipe-modal" hide-footer title="Add New Recipe">
+        <b-form @submit.prevent="onSave" id="form">
           <b-form-group>
             Select recipe type:
             <b-form-radio-group id="btn-radios-2" v-model="type_selected" :options="type_options"
@@ -27,26 +27,28 @@
               Recipe Image should be in the URL format
             </b-form-invalid-feedback>
           </b-form-group>
-          <div v-if="type_selected=='family'">
-          <b-form-group id="input-group-owner" label-cols-sm="3" label="recipe owner:" label-for="owner">
-            <b-form-input id="owner" v-model="$v.form_family.owner.$model" type="text" :state="validateStateFamily('owner')">
-            </b-form-input>
-            <b-form-invalid-feedback v-if="!$v.form_family.owner.required">
-              Recipe's owner is required
-            </b-form-invalid-feedback>
-            <b-form-invalid-feedback v-if="!$v.form_family.owner.alpha">
-              Recipe's owner can include only alphabetic characters
-            </b-form-invalid-feedback>
-          </b-form-group>
-           <b-form-group id="input-group-tradition" label-cols-sm="3" label="recipe tradition:" label-for="tradition">
-                <b-form-textarea id="tradition" v-model="$v.form_family.tradition.$model" :state="validateStateFamily('tradition')" rows="2" max-rows="2"></b-form-textarea>
-            <b-form-invalid-feedback v-if="!$v.form_family.tradition.required">
-              Recipe's tradition is required
-            </b-form-invalid-feedback>
-            <b-form-invalid-feedback v-if="!$v.form_family.tradition.alphaNumAndSpaceValidator">
-              Recipe's tradition can include only alphanumeric letters and special characters .,-!?()
-            </b-form-invalid-feedback>
-          </b-form-group>
+          <div v-if="type_selected == 'family'">
+            <b-form-group id="input-group-owner" label-cols-sm="3" label="recipe owner:" label-for="owner">
+              <b-form-input id="owner" v-model="$v.form_family.owner.$model" type="text"
+                :state="validateStateFamily('owner')">
+              </b-form-input>
+              <b-form-invalid-feedback v-if="!$v.form_family.owner.required">
+                Recipe's owner is required
+              </b-form-invalid-feedback>
+              <b-form-invalid-feedback v-if="!$v.form_family.owner.alpha">
+                Recipe's owner can include only alphabetic characters
+              </b-form-invalid-feedback>
+            </b-form-group>
+            <b-form-group id="input-group-tradition" label-cols-sm="3" label="recipe tradition:" label-for="tradition">
+              <b-form-textarea id="tradition" v-model="$v.form_family.tradition.$model"
+                :state="validateStateFamily('tradition')" rows="2" max-rows="2"></b-form-textarea>
+              <b-form-invalid-feedback v-if="!$v.form_family.tradition.required">
+                Recipe's tradition is required
+              </b-form-invalid-feedback>
+              <b-form-invalid-feedback v-if="!$v.form_family.tradition.alphaNumAndSpaceValidator">
+                Recipe's tradition can include only alphanumeric letters and special characters .,-!?()
+              </b-form-invalid-feedback>
+            </b-form-group>
           </div>
           <b-form-group id="input-group-readyInMinutes" label-cols-sm="6" label="preparation time: (in minutes)"
             label-for="readyInMinutes">
@@ -60,8 +62,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
           <b-form-group>
-            <b-form-checkbox-group v-model="diet_selected" :options="diet_options"
-              switches></b-form-checkbox-group>
+            <b-form-checkbox-group v-model="diet_selected" :options="diet_options" switches></b-form-checkbox-group>
           </b-form-group>
           <b-form-group id="input-group-servings" label-cols-sm="3" label="servings:" label-for="servings">
             <b-form-input id="servings" placeholder="0" v-model="$v.form.servings.$model" type="text"
@@ -209,32 +210,32 @@ export default {
     async SaveRecipe() {
       await this.getDiet();
       try {
-        let body =  {
-            title: this.form.title,
-            image: this.form.image,
-            readyInMinutes: parseInt(this.form.readyInMinutes),
-            popularity: 0,
-            vegan: this.vegan,
-            vegetarian: this.vegetarian,
-            glutenFree: this.glutenFree,
-            ingredients: this.ingredients,
-            instructions: this.instructions,
-            servings: parseInt(this.form.servings),
-          }             
-        if(this.type_selected=='personal'){
+        let body = {
+          title: this.form.title,
+          image: this.form.image,
+          readyInMinutes: parseInt(this.form.readyInMinutes),
+          popularity: 0,
+          vegan: this.vegan,
+          vegetarian: this.vegetarian,
+          glutenFree: this.glutenFree,
+          ingredients: this.ingredients,
+          instructions: this.instructions,
+          servings: parseInt(this.form.servings),
+        }
+        if (this.type_selected == 'personal') {
           const response = await this.axios.post(
-          this.$root.store.server_domain +"/users/myrecipes",
-          body, { withCredentials: true }
+            this.$root.store.server_domain + "/users/myrecipes",
+            body, { withCredentials: true }
           );
         }
-        else{
+        else {
           body["owner"] = this.form_family.owner;
           body["tradition"] = this.form_family.tradition;
           const response = await this.axios.post(
-          this.$root.store.server_domain +"/users/familyrecipes",
-          body, { withCredentials: true }
+            this.$root.store.server_domain + "/users/familyrecipes",
+            body, { withCredentials: true }
           );
-        }    
+        }
         this.$root.toast("SaveRecipe", "New recipe saved successfully", "success");
         this.goToPage();
       } catch (err) {
@@ -254,9 +255,9 @@ export default {
       }
     },
     goToPage() {
-      if(this.type_selected=='personal')
+      if (this.type_selected == 'personal')
         this.$router.push("/user/myrecipes");
-      else{
+      else {
         this.$router.push("/user/familyrecipes");
       }
     },
@@ -264,8 +265,8 @@ export default {
 
       if (confirm("Are you sure you want to exit?\nYour recipe will be lost") == true) {
         this.$router.back();
-        }
-      else{
+      }
+      else {
         bvModalEvt.preventDefault()
       }
     }
@@ -301,7 +302,7 @@ export default {
       if (this.$v.form.$anyError) {
         return;
       }
-      if(this.type_selected=='family'){
+      if (this.type_selected == 'family') {
         this.$v.form_family.$touch();
         if (this.$v.form_family.$anyError) {
           return;
@@ -313,13 +314,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// .container {
-//   max-width: 500px;
+.container {
+  max-width: 900px;
+  // background-color: #F7C272;
+}
+
+// #form{ working but ugly!
+//   background-color: #F7C272;
+//   color: #C26E32;
 // }
 
-#recipe-modal {
-  width: 100%;
-}
+// .modal { not working
+//   width: 100%;
+//   background-color: #F7C272;
+//   color: #F7C272;
+// }
 
 .controls {
   width: 294px;
@@ -328,14 +337,5 @@ export default {
 
 #remove_fields {
   float: right;
-}
-
-.controls a i.fa-minus {
-  margin-right: 5px;
-}
-
-a {
-  color: black;
-  text-decoration: none;
 }
 </style>

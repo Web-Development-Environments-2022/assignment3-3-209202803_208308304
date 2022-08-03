@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <RecipePreviewList title="My Recipes:" class="MyRecipes center" :recipes="my_recipes.slice(0, 3)" />
+    <h1 class="title">My Recipes:</h1>
+    <h3 v-if=!my_recipes.length>You haven't posted any personal recipes yet</h3>
+    <RecipePreviewList title="" class="MyRecipes center" :recipes="my_recipes.slice(0, 3)" />
     <RecipePreviewList v-for="i in row_num" :key="i" title="" class="MyRecipes center"
       :recipes="my_recipes.slice(i * 3, i * 3 + 3)" />
   </div>

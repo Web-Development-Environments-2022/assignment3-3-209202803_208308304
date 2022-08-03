@@ -1,16 +1,16 @@
 <template>
   <div class="container">
     <h1 class="title">Search Page</h1>
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light">
       <form class="form-inline" @submit.prevent="getSearchRecipes">
         <input v-model=search_query id="search_query" class="form-control mr-sm-2" type="search" placeholder="Search"
           aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn" type="submit">Search</button>
       </form>
-      <b-dropdown no-caret id="filter-btn" text="Filter By:" class="m-2">
-        <b-dropdown-item-button @click="noFilters" class="dropdown-group">
+      <b-dropdown id="filter-btn" text="Filter By:" class="btn">
+        <b-dropdown-item @click="noFilters" class="dropdown-group">
           No Filters
-        </b-dropdown-item-button>
+        </b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-group class="dropdown-group" header="Cuisine">
           <template>
@@ -185,6 +185,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.navbar {
+  //if no then return this: bg-light to the <nav class=
+  background-color: #DAC971;
+}
+
 .dropdown-group {
   width: 300px
 }
