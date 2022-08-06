@@ -313,11 +313,39 @@ export default {
   },
 };
 </script>
+<style lang="scss" >
+
+.modal { 
+  color: #568A9F;
+
+  button {
+    background-color: #568A9F ;
+    border: none;
+    color: white;
+  }
+
+  #btn-radios-2{
+      background-color: #568A9F;
+    border: none;
+    color: white;
+}
+}
+
+
+.c-modal { 
+  width: 100%;
+  color: #221351;
+  background-color: #221351;
+}
+
+
+</style>
 <style lang="scss" scoped>
 .container {
   max-width: 900px;
   // background-color: #F7C272;
 }
+
 
 // #form{ working but ugly!
 //   background-color: #F7C272;

@@ -14,7 +14,6 @@ Vue.use(VueCookies);
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import VueToast from 'vue-toast-notification';
 import {
   FormGroupPlugin,
   FormPlugin,
@@ -54,7 +53,6 @@ import {
   FormTextareaPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
-Vue.use(VueToast);
 
 axios.interceptors.request.use(
   function (config) {
@@ -100,7 +98,7 @@ const shared_data = {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
-    setTimeout(() => { this.logout() }, 24 * 60 * 60 * 1000);
+    setTimeout(() => { this.logout() }, 23.5 * 60 * 60 * 1000);
     console.log("timer is set for 24h")
   },
   async logout() {
