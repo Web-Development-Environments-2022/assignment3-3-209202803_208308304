@@ -31,11 +31,11 @@ export default {
       );
       this.favorite_recipes = response.data;
       this.row_num = Math.ceil(this.favorite_recipes.length / 3);
-      if(!this.favorite_recipes.length){
-        this.title ="You haven't liked any recipes yet"
+      if (!this.favorite_recipes.length) {
+        this.title = "You haven't liked any recipes yet"
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }
 }

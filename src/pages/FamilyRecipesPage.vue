@@ -6,23 +6,22 @@
       <div v-if="recipe">
         <div class="recipe-header mt-3 mb-4">
           <h3>{{ recipe.title }}</h3>
-          <div v-if="image_load">
-            <img class="center" :src="recipe.image">
-          </div>
-          <div v-else>
-            <img class="center" src="../assets/default_recipe_image.jpg">
-          </div>
+            <img class="center" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'">
         </div>
         <div class="recipe-body">
           <div class="wrapper">
             <div class="wrapped">
               <div class="mb-3">
-                <div>Owner: {{ recipe.owner }}</div>
-                <div>Tradition: {{ recipe.tradition }}</div>
-                <div>Servings: {{ recipe.servings }}</div>
-                <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
+                <div><strong>Owner:</strong> {{ recipe.owner }}</div>
+                <div><strong>Tradition:</strong> {{ recipe.tradition }}</div>
+              <div><strong>Servings:</strong> {{ recipe.servings }}</div>
+              <div><strong>Ready in:</strong> {{ recipe.readyInMinutes }} minutes</div>
+              <div><strong>Likes:</strong> {{ recipe.popularity }} likes</div>
+              <div v-if="recipe.vegan"><strong>Vegan</strong> <b-icon-check></b-icon-check></div>
+              <div v-if="recipe.vegetarian"><strong>Vegetarian</strong> <b-icon-check></b-icon-check></div>
+              <div v-if="recipe.glutenFree"><strong>Gluten Free</strong> <b-icon-check></b-icon-check></div>
               </div>
-              Ingredients:
+              <strong>Ingredients:</strong>
               <ul>
                 <li v-for="(r, index) in recipe.ingredients" :key="index">
                   {{ r.amount }} {{ r.metric }} {{ r.name }}
@@ -30,7 +29,7 @@
               </ul>
             </div>
             <div class="wrapped">
-              Instructions:
+              <strong>Instructions:</strong>
               <ol>
                 <li v-for="s in recipe.instructions" :key="s.number">
                   {{ s.step }}
@@ -49,7 +48,6 @@ export default {
   data() {
     return {
       family_recipes: [],
-      image_load: false,
       title: "",
     };
   },
@@ -65,19 +63,9 @@ export default {
         this.title = "     You haven't posted any family recipes yet"
       }
     } catch (error) {
-      console.log("error.response.status", error.response.status);
-      this.$router.replace("/NotFound");
+      console.log(error.response);
     }
   },
-  mounted() {
-    try {
-      if (this.recipe.image) {
-        this.axios.get(this.recipe.image).then((i) => {
-          this.image_load = true;
-        }, () => { });
-      }
-    } catch (err) { }//not helping 
-  }
 };
 </script>
 
@@ -98,10 +86,10 @@ export default {
 }
 
 .familyCard {
-  border-style: double;
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px 10px 10px 10px;
+  box-shadow: 5px 5px 5px 5px;
 }
 
 h3{

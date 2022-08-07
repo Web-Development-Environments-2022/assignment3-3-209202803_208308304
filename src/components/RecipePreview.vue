@@ -1,14 +1,9 @@
 <template>
   <div class="card">
     <div class="wrapper">
-      <div v-if="image_load">
-        <img @click="viewRecipe" class="card-img-top" :src="recipe.image">
-      </div>
-      <div v-else>
-        <img @click="viewRecipe" class="card-img-top" src="../assets/default_recipe_image.jpg">
-      </div>
-      <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="2.5" :animation="likeAnima"></b-icon>
-      <b-icon class="watchedIcon" :icon="watched" font-scale="2.5"></b-icon>
+        <img @click="viewRecipe" class="card-img-top" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'"  >
+      <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="2.2" :animation="likeAnima"></b-icon>
+      <b-icon class="watchedIcon" :icon="watched" font-scale="2.2"></b-icon>
     </div>
     <div class="card-body" @click="viewRecipe">
       <h5 class="card-title">{{ recipe.title }}</h5>
@@ -38,28 +33,15 @@
 export default {
   created() {
     if (this.recipe.isFavorite)
-      this.favorite = "heart-fill";
+      this.favorite = "star-fill";
     if (this.recipe.isWatched)
       this.watched = "eye-fill";
   },
-  mounted() {
-    try {
-      if (this.recipe.image) {
-        this.axios.get(this.recipe.image).then((i) => {
-          this.image_load = true;
-        }, () => { });
-      }
-    } catch (err) { }//not helping 
-
-  },
-
   data() {
     return {
-      image_load: false,
-      favorite: "heart",
+      favorite: "star",
       watched: "eye-slash",
       likeAnima: "",
-      image_src: "../assets/default_recipe_image.jpg"
     };
   },
   props: {
@@ -70,40 +52,36 @@ export default {
   },
   methods: {
     async addToFavorite() {
-      if (!this.recipe.isFavorite) {
-        try {
-          const response = await this.axios.post(
-            this.$root.store.server_domain + "/users/favorites",
-            { recipe_id: this.recipe.recipe_id },
-            { withCredentials: true }
-          );
-          this.favorite = "heart-fill";
-          this.likeAnima = "throb";
-          setTimeout(() => {
-            this.likeAnima = "";
-          }, 1500);
-        } catch (err) {
-          console.log(err.response);
-          this.form.submitError = err.response.data.message;
+      if(this.$root.store.username){
+        if (!this.recipe.isFavorite) {
+          try {
+            const response = await this.axios.post(
+              this.$root.store.server_domain + "/users/favorites",
+              { recipe_id: this.recipe.recipe_id },
+              { withCredentials: true }
+            );
+            this.favorite = "star-fill";
+            this.likeAnima = "throb";
+            setTimeout(() => {
+              this.likeAnima = "";
+            }, 1500);
+          } catch (err) {
+            console.log(err.response);
+          }
         }
+      }
+      else{
+        this.$root.toast("Not Logged In", "You have to be logged in to like recipes", "error");
       }
     },
     viewRecipe() {
       this.$router.push({ name: 'recipe', params: { recipeId: this.recipe.recipe_id } });
-    },
+    }
   }
 };
 </script>
 
 <style scoped>
-.recipe-preview {
-  display: inline-block;
-  width: 100%;
-  height: 400px;
-  position: relative;
-  margin: 5px 5px;
-
-}
 
 .wrapper {
   position: relative
@@ -114,27 +92,29 @@ export default {
   top: 0;
   right: 0;
   color: #568A9F;
+  background-color: #F7C272;
 }
 
 .watchedIcon {
   position: absolute;
-  top: 50px;
+  top: 35px;
   right: 0;
   color: #568A9F;
+  background-color: #F7C272;
 }
 
 .card {
-  width: 300px;
+  width: 280px;
   height: 400px;
   position: relative;
   margin: 10px 0px;
   background-color: #F7C272;
+  box-shadow: 2px 2px 2px 2px #6a6a6a;
 }
 
 .card .card-body :hover {
   color: #C26E32;
   font-style: bold;
-  /* opacity: 0.3; */
 }
 
 .card-img-top {
@@ -151,11 +131,12 @@ export default {
   width: 100%;
   font-size: 14pt;
   text-align: left;
-  white-space: nowrap;
-  white-space: initial;
-  /*overflow:visible;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis; */
+  height: 65px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-text {
@@ -181,7 +162,6 @@ li { float: left; margin: 0 10px; }
   margin-bottom: 5px;
   width: 100%; 
   bottom: 0px;
-
 }
 
 </style>

@@ -1,13 +1,12 @@
 <template>
   <div class="container">
     <div>
-      <!-- <b-button v-b-modal.recipe-modal>Add Recipe</b-button> -->
       <b-modal @hide="exit" class="modal" ref="recipe-modal" id="recipe-modal" hide-footer title="Add New Recipe">
         <b-form @submit.prevent="onSave" id="form">
           <b-form-group>
             Select recipe type:
             <b-form-radio-group id="btn-radios-2" v-model="type_selected" :options="type_options"
-              button-variant="outline-primary" name="radio-btn-outline" buttons>
+              button-variant="outline-info" name="radio-btn-outline" buttons>
             </b-form-radio-group>
           </b-form-group>
           <b-form-group id="input-group-title" label-cols-sm="3" label="title:" label-for="title">
@@ -98,7 +97,7 @@
               <b-icon-dash></b-icon-dash> Remove Instruction
             </a>
           </div>
-          <b-button type="submit" variant="primary">Save Recipe</b-button>
+          <b-button block type="submit" variant="info">Save Recipe</b-button>
         </b-form>
       </b-modal>
     </div>
@@ -313,50 +312,23 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" >
-
-.modal { 
+.modal {
   color: #568A9F;
-
-  button {
-    background-color: #568A9F ;
-    border: none;
-    color: white;
-  }
-
-  #btn-radios-2{
-      background-color: #568A9F;
-    border: none;
-    color: white;
-}
 }
 
-
-.c-modal { 
+.c-modal {
   width: 100%;
   color: #221351;
   background-color: #221351;
 }
-
-
 </style>
+
 <style lang="scss" scoped>
 .container {
   max-width: 900px;
-  // background-color: #F7C272;
 }
-
-
-// #form{ working but ugly!
-//   background-color: #F7C272;
-//   color: #C26E32;
-// }
-
-// .modal { not working
-//   width: 100%;
-//   background-color: #F7C272;
-//   color: #F7C272;
-// }
 
 .controls {
   width: 294px;

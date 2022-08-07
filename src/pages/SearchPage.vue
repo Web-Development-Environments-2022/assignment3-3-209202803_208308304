@@ -6,44 +6,47 @@
         <input v-model=search_query id="search_query" class="form-control mr-sm-2" type="search" placeholder="Search"
           aria-label="Search">
         <button class="btn" type="submit">Search</button>
+
+        <b-dropdown id="filter-btn" text="Filter By:" class="btn">
+          <b-dropdown-item @click="noFilters" class="dropdown-group">
+            No Filters
+          </b-dropdown-item>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-group class="dropdown-group" header="Cuisine">
+            <template>
+              <div>
+                <b-form-checkbox-group id="checkbox-group-1" v-model="cuisine_selected" :options="cuisine_options"
+                  name="cuisine-group"></b-form-checkbox-group>
+              </div>
+            </template>
+          </b-dropdown-group>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-group class="dropdown-group" header="Diet">
+            <template>
+              <div>
+                <b-form-checkbox-group id="checkbox-group-2" v-model="diet_selected" :options="diet_options"
+                  name="diet-group"></b-form-checkbox-group>
+              </div>
+            </template>
+          </b-dropdown-group>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-group class="dropdown-group" header="Intolerances">
+            <template>
+              <div>
+                <b-form-checkbox-group id="checkbox-group-3" v-model="intolerances_selected"
+                  :options="intolerances_options" name="intolerances-group"></b-form-checkbox-group>
+              </div>
+            </template>
+          </b-dropdown-group>
+        </b-dropdown>
       </form>
-      <b-dropdown id="filter-btn" text="Filter By:" class="btn">
-        <b-dropdown-item @click="noFilters" class="dropdown-group">
-          No Filters
-        </b-dropdown-item>
-        <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-group class="dropdown-group" header="Cuisine">
-          <template>
-            <div>
-              <b-form-checkbox-group id="checkbox-group-1" v-model="cuisine_selected" :options="cuisine_options"
-                name="cuisine-group"></b-form-checkbox-group>
-            </div>
-          </template>
-        </b-dropdown-group>
-        <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-group class="dropdown-group" header="Diet">
-          <template>
-            <div>
-              <b-form-checkbox-group id="checkbox-group-2" v-model="diet_selected" :options="diet_options"
-                name="diet-group"></b-form-checkbox-group>
-            </div>
-          </template>
-        </b-dropdown-group>
-        <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-group class="dropdown-group" header="Intolerances">
-          <template>
-            <div>
-              <b-form-checkbox-group id="checkbox-group-3" v-model="intolerances_selected"
-                :options="intolerances_options" name="intolerances-group"></b-form-checkbox-group>
-            </div>
-          </template>
-        </b-dropdown-group>
-      </b-dropdown>
       <div>
         <p>Number of results: </p>
         <b-form-radio-group v-model="result_num_selected" :options="result_num_options" class="mb-3">
         </b-form-radio-group>
+
       </div>
+
     </nav>
     <RecipePreviewList :title="title" class="SearchResult center" :recipes="search_result.slice(0, 3)" />
     <RecipePreviewList v-for="i in row_num" :key="i" title="" class="SearchResult center"
@@ -105,14 +108,14 @@ export default {
       diet_options: [
         { text: 'GlutenFree', value: 'GlutenFree' },
         { text: 'Ketogenic', value: 'Ketogenic' },
-        { text: 'Vegetarian', value: 'Vegetarian' },
         { text: 'LactoVegetarian', value: 'LactoVegetarian' },
-        { text: 'OvoVegetarian', value: 'OvoVegetarian' },
-        { text: 'Vegan', value: 'Vegan' },
-        { text: 'Pescetarian', value: 'Pescetarian' },
-        { text: 'Paleo', value: 'Paleo' },
-        { text: 'Primal', value: 'Primal' },
         { text: 'LowFODMAP', value: 'LowFODMAP' },
+        { text: 'OvoVegetarian', value: 'OvoVegetarian' },
+        { text: 'Paleo', value: 'Paleo' },
+        { text: 'Pescetarian', value: 'Pescetarian' },
+        { text: 'Primal', value: 'Primal' },
+        { text: 'Vegan', value: 'Vegan' },
+        { text: 'Vegetarian', value: 'Vegetarian' },
         { text: 'Whole30', value: 'Whole30' },
       ],
       intolerances_selected: [],
@@ -141,10 +144,10 @@ export default {
     if (storedQuery) {
       this.title = storedQuery;
     }
+    this.row_num = Math.ceil(this.search_result.length / 3);
   },
   methods: {
     async getSearchRecipes() {
-      console.log(this.result_num_selected)
       try {
         const response = await this.axios.get(
           this.$root.store.server_domain + "/search",
@@ -186,8 +189,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .navbar {
-  //if no then return this: bg-light to the <nav class=
-  background-color: #DAC971;
+  background-color: #f4dc6f;
 }
 
 .dropdown-group {
@@ -196,6 +198,9 @@ export default {
 
 .dropdown-group header {
   font-size: 16px;
+}
 
+p {
+  font-size: 18px;
 }
 </style>

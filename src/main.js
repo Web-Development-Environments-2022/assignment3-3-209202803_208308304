@@ -73,13 +73,13 @@ axios.interceptors.response.use(
   },
   function (error) {
     // Do something with response error
-    // if (!error.response) {
-    //   //network error
-    //   // Vue.$toast.open("Sorry, there was a Network Error");
-    //   router.replace("/notFound");
-    //   console.log('No network connection');
-    // }
-
+    if (error.response) {
+      if (error.response.status == 419) {
+        //session expired
+        shared_data.logoutFromFront();
+        router.replace("/auth/login");
+      }
+    }
     return Promise.reject(error);
   }
 );
@@ -90,50 +90,44 @@ Vue.config.productionTip = false;
 
 const shared_data = {
   username: localStorage.username,
-  server_domain: "http://localhost:3000",  // address for server side tests: https://test-for-3-2.herokuapp.com
+  server_domain: "http://localhost:3000",  // https://recipesbynitzanandmalka.cs.bgu.ac.il
   search_result: localStorage.search_result,
   query: localStorage.search_query,
 
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
-    console.log("login", this.username);
     setTimeout(() => { this.logout() }, 23.5 * 60 * 60 * 1000);
-    console.log("timer is set for 24h")
   },
   async logout() {
     try {
       const response = await axios.put(
         this.server_domain + "/auth/logout", {}, { withCredentials: true }
       );
-      console.log("logout");
-      localStorage.removeItem("username");
-      this.username = undefined;
+      this.logoutFromFront();
       return true;
     } catch (err) {
       console.log(err.response);
-      // this.form.submitError = err.response.data.message;
       return false;
     }
-
+  },
+  logoutFromFront() {
+    localStorage.removeItem("username");
+    this.username = undefined;
   },
   setSearchResult(search_query, search_result) {
     localStorage.setItem('search_query', JSON.stringify(search_query));
     localStorage.setItem('search_result', JSON.stringify(search_result));
     this.search_result = search_result;
     this.search_query = search_query;
-    console.log("search saved");
   },
   getSearchResult() {
-    console.log("get search");
     return JSON.parse(localStorage.getItem('search_result'));
   },
   getSearchQuery() {
-    console.log("get query");
     return JSON.parse(localStorage.getItem('search_query'));
   }
 };
-console.log(shared_data);
 
 new Vue({
   router,

@@ -4,7 +4,6 @@
       <b-navbar-brand href="#">
         <img id="logo" src="./assets/logo.png" alt="recipes" style="width:3em; height:auto;">
       </b-navbar-brand>
-      <!-- <b-navbar-brand href="#">Recipes</b-navbar-brand> -->
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <router-link tag="li" :to="{ name: 'main' }" class="nav-link">Main</router-link>
@@ -15,7 +14,7 @@
           <span v-if="$root.store.username">
             <b-navbar-nav>
               <b-nav-item-dropdown text="Personal" id="dropdown" class="m-2">
-                  <b-dropdown-item :to="{ name: 'favorites' }" >Favorites <b-icon-heart></b-icon-heart></b-dropdown-item>
+                  <b-dropdown-item :to="{ name: 'favorites' }" >Favorites <b-icon-star></b-icon-star></b-dropdown-item>
                 <b-dropdown-item :to="{ name: 'myrecipes' }" class="b-dropdown-item">My Recipes
                 </b-dropdown-item>
                 <b-dropdown-item :to="{ name: 'familyrecipes' }" class="b-dropdown-item">Family Recipes
@@ -28,7 +27,6 @@
         <b-navbar-nav class="ml-auto" right>
 
           <span v-if="!$root.store.username">
-            <!-- <p>Hello Guest</p> (to make it no part of b-nav-item style)-->
             <b-navbar-nav>
               <b-nav-text tag="li" class="nav-item" id="hello-guest">Hello Guest</b-nav-text>
               <router-link tag="li" :to="{ name: 'register' }" class="nav-link">Register</router-link>
@@ -84,8 +82,8 @@ html {
   min-height: 100vh;
   background-color: #AFBED5;
   background-size: cover contain;
-  // font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
   h1 {
     margin-top: 10px;
     font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -111,9 +109,6 @@ html {
     opacity: 0.85;
   }
 
-  li:hover {
-    opacity: 0.75;
-  }
 
 
   #dropdown{
@@ -130,22 +125,24 @@ html {
   }
 }
 
-
-
 #navbar {
-  // position: sticky;
-  // color: #568A9F;
   background-color: #568A9F;
+  font-size: 18px;
 
 }
 
 #modal-link {
   margin-top: 7.5px;
 }
+
 </style>
+
 <style lang="scss" scoped>
+  li:hover {
+    opacity: 0.75;
+  }
+
 #dropdown {
-  //not working
   background-color: #568A9F;
   color: #2c3e50;
 }
@@ -153,7 +150,7 @@ html {
 #hello-user {
   color: #DAC971;
   margin-top: 7.5px;
-  font-size: 17px;
+  font-size: 18px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-style: italic;
   margin-right:  5px;
@@ -161,8 +158,7 @@ html {
 
 #hello-guest{
     color: #DAC971;
-  // margin-top: 7.5px;
-  font-size: 17px;
+  font-size: 18px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-style: italic;
   margin-right:  5px;
@@ -171,7 +167,6 @@ html {
 #hello-user:hover{
     opacity: 1;
 }
-
 
 #hello-guest:hover{
     opacity: 1;

@@ -212,6 +212,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  max-width: 500px;
+  width: 500px;
+  margin-top: 30px;
+  padding: 20px 20px 20px 20px;
+  box-shadow: 2px 2px 5px 5px #6a6a6a;
 }
 </style>

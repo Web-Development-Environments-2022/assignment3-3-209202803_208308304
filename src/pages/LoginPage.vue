@@ -9,7 +9,6 @@
           Username is required
         </b-form-invalid-feedback>
       </b-form-group>
-
       <b-form-group id="input-group-Password" label-cols-sm="3" label="Password:" label-for="Password">
         <b-form-input id="Password" type="password" v-model="$v.form.password.$model"
           :state="validateState('password')"></b-form-input>
@@ -17,12 +16,11 @@
           Password is required
         </b-form-invalid-feedback>
       </b-form-group>
-
       <b-button type="submit" variant="primary" style="width:100px;display:block;" class="mx-auto w-100">Login
       </b-button>
       <div class="mt-2">
         Do not have an account yet?
-        <router-link to="register"> Register in here</router-link>
+        <router-link :to="{ name: 'register' }"> Register in here</router-link>
       </div>
     </b-form>
     <b-alert class="mt-2" v-if="form.submitError" variant="warning" dismissible show>
@@ -69,7 +67,6 @@ export default {
           },
           { withCredentials: true }
         );
-        console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
         if (this.$router.currentRoute.path != "/") {
           this.$router.push("/");
@@ -77,7 +74,6 @@ export default {
         else {
           this.$emit('login')
         }
-
       } catch (err) {
         if (!err.response) {
           this.$root.toast("Login-fail", "Something went wrong with our server", "warning");
@@ -102,8 +98,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  max-width: 400px;
-  margin-top: 10px;
+  width: 400px;
+  margin-top: 30px;
   margin-bottom: 10px;
+  padding: 20px 20px 20px 20px;
+  box-shadow: 2px 2px 5px 5px #6a6a6a;
 }
 </style>

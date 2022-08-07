@@ -3,22 +3,24 @@
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
         <h1>{{ recipe.title }}</h1>
-        <div v-if="image_load">
-          <img class="center" :src="recipe.image">
+        <div class="wrapper-img">
+          <img class="center" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'">
+          <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="3" :animation="likeAnima"></b-icon>
+          <b-icon class="watchedIcon" :icon="watched" font-scale="3"></b-icon>
         </div>
-        <div v-else>
-          <img class="center" src="../assets/default_recipe_image.jpg">
-        </div>
-      </div>
+          </div>
       <div class="recipe-body">
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-              <div>Servings: {{ recipe.servings }}</div>
-              <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.popularity }} likes</div>
+              <div><strong>Servings:</strong> {{ recipe.servings }}</div>
+              <div><strong>Ready in:</strong> {{ recipe.readyInMinutes }} minutes</div>
+              <div><strong>Likes:</strong> {{ recipe.popularity }} likes</div>
+              <div v-if="recipe.vegan"><strong>Vegan</strong> <b-icon-check></b-icon-check></div>
+              <div v-if="recipe.vegetarian"><strong>Vegetarian</strong> <b-icon-check></b-icon-check></div>
+              <div v-if="recipe.glutenFree"><strong>Gluten Free</strong> <b-icon-check></b-icon-check></div>
             </div>
-            Ingredients:
+            <strong>Ingredients:</strong>
             <ul>
               <li v-for="(r, index) in recipe.ingredients" :key="index">
                 {{ r.amount }} {{ r.metric }} {{ r.name }}
@@ -26,7 +28,7 @@
             </ul>
           </div>
           <div class="wrapped">
-            Instructions:
+            <strong>Instructions:</strong>
             <ol>
               <li v-for="s in recipe.instructions" :key="s.number">
                 {{ s.step }}
@@ -44,28 +46,25 @@ export default {
   data() {
     return {
       recipe: null,
-      image_load: false,
+      favorite: "star",
+      watched: "eye-slash",
+      likeAnima: "",
     };
   },
   async created() {
     try {
       let response;
-      // response = this.$route.params.response;
-
       try {
         response = await this.axios.put(
           this.$root.store.server_domain + `/recipes/${this.$route.params.recipeId}`, {},
           { withCredentials: true }
         );
-
-        // console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
-        console.log("error.response.status", error.response.status);
+        console.log(error.response);
         this.$router.replace("/NotFound");
         return;
       }
-      console.log(response)
       let {
         Preview,
         servings,
@@ -95,13 +94,36 @@ export default {
     } catch (error) {
       console.log(error);
     }
-    try {
-      if (this.recipe.image) {
-        this.axios.get(this.recipe.image).then((i) => {
-          this.image_load = true;
-        }, () => { });
+
+    if (this.recipe.isFavorite)
+      this.favorite = "star-fill";
+    if (this.recipe.isWatched)
+      this.watched = "eye-fill";
+  },
+  methods:{
+    async addToFavorite() {
+      if(this.$root.store.username){
+        if (!this.recipe.isFavorite) {
+          try {
+            const response = await this.axios.post(
+              this.$root.store.server_domain + "/users/favorites",
+              { recipe_id: this.recipe.recipe_id },
+              { withCredentials: true }
+            );
+            this.favorite = "star-fill";
+            this.likeAnima = "throb";
+            setTimeout(() => {
+              this.likeAnima = "";
+            }, 1500);
+          } catch (err) {
+            console.log(err.response);
+          }
+        }
       }
-    } catch (err) { }
+      else{
+        this.$root.toast("Not Logged In", "You have to be logged in to like recipes", "error");
+      }
+    },
   }
 };
 </script>
@@ -122,7 +144,22 @@ export default {
   width: 50%;
 }
 
-/* .recipe-header{
+.wrapper-img {
+  position: relative
+}
 
-} */
+.likeIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #568A9F;
+}
+
+.watchedIcon {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  color: #568A9F;
+
+}
 </style>

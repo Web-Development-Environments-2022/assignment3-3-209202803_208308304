@@ -5,6 +5,8 @@
     <br>
     <br>
     <div v-if="!$root.store.username" class="float-left">
+           <h3 id="blur"> Last Viewed Recipes:</h3> 
+           You need to login to vue this
       <LoginPage @login="getWatchedRecipes"></LoginPage>
     </div>
     <div v-else>
@@ -41,25 +43,18 @@ export default {
           this.$root.store.server_domain + "/recipes/random",
           { withCredentials: true }
         );
-
-        console.log(response);
         this.random_recipes = response.data;
-        console.log(this.random_recipes);
       } catch (error) {
         console.log(error);
       }
     },
     async getWatchedRecipes() {
-      console.log("watched")
       try {
         const response = await this.axios.get(
           this.$root.store.server_domain + "/recipes/watched",
           { withCredentials: true }
         );
-
-        console.log(response);
         this.watched_recipes = response.data;
-        console.log(this.watched_recipes);
       } catch (error) {
         console.log(error);
       }
@@ -71,5 +66,10 @@ export default {
 <style lang="scss" scoped>
 .RandomRecipes {
   margin: 10px 0 10px;
+}
+
+#blur {
+color: transparent;
+   text-shadow: 0 0 5px rgba(#2c3e50,0.95);
 }
 </style>
