@@ -30,7 +30,7 @@
               <b-form-invalid-feedback v-if="!$v.form_family.owner.required">
                 Recipe's owner is required
               </b-form-invalid-feedback>
-              <b-form-invalid-feedback v-if="!$v.form_family.owner.alpha">
+              <b-form-invalid-feedback v-if="!$v.form_family.owner.alphaAndSpaceValidator">
                 Recipe's owner can include only alphabetic characters
               </b-form-invalid-feedback>
             </b-form-group>
@@ -108,6 +108,7 @@ import {
   helpers,
 } from "vuelidate/lib/validators";
 const alphaNumAndSpaceValidator = helpers.regex('alphaNumSpace', /^[\w\-\s.,!?()]+$/);
+const alphaAndSpaceValidator = helpers.regex('alphaSpace', /^[a-zA-Z\-\s]+$/);
 import Ingredients from "../components/Ingredients";
 import Instructions from "../components/Instructions";
 
@@ -179,7 +180,7 @@ export default {
     form_family: {
       owner: {
         required,
-        alpha,
+        alphaAndSpaceValidator,
       },
       tradition: {
         required,
