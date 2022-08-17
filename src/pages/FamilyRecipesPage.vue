@@ -1,15 +1,30 @@
 <template>
   <div class="container">
     <h1 class="title">Family Recipes:</h1>
-    <h3 v-if=!family_recipes.length> {{ title }} </h3>
+    <h3 v-if="!family_recipes.length">{{ title }}</h3>
     <div class="wrap" v-if="recipe">
-      <b-icon-arrow-left-circle-fill d=leftArrow @click="leftRecipe" font-scale="4"></b-icon-arrow-left-circle-fill>
-      <h3 class="middle">{{num + 1}}</h3>
-      <b-icon-arrow-right-circle-fill id="rigthArrow" @click="rightRecipe" font-scale="4"></b-icon-arrow-right-circle-fill>
-      <div class="familyCard" v-if=family_recipes.length>
+      <b-icon-arrow-left-circle-fill
+        id="leftArrow"
+        @click="leftRecipe"
+        font-scale="4"
+      ></b-icon-arrow-left-circle-fill>
+      <h3 class="middle">{{ num + 1 }} / {{ family_recipes.length }}</h3>
+      <b-icon-arrow-right-circle-fill
+        id="rightArrow"
+        @click="rightRecipe"
+        font-scale="4"
+      ></b-icon-arrow-right-circle-fill>
+      <div class="familyCard" v-if="family_recipes.length">
         <div class="recipe-header mt-3 mb-4">
           <h3>{{ recipe.title }}</h3>
-            <img class="center" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'">
+          <img
+            class="center"
+            :src="recipe.image"
+            v-on:error="
+              recipe.image =
+                'https://spoonacular.com/recipeImages/471334-312x231.jpg'
+            "
+          />
         </div>
         <div class="recipe-body">
           <div class="wrapper">
@@ -17,12 +32,20 @@
               <div class="mb-3">
                 <div><strong>Owner:</strong> {{ recipe.owner }}</div>
                 <div><strong>Tradition:</strong> {{ recipe.tradition }}</div>
-              <div><strong>Servings:</strong> {{ recipe.servings }}</div>
-              <div><strong>Ready in:</strong> {{ recipe.readyInMinutes }} minutes</div>
-              <div><strong>Likes:</strong> {{ recipe.popularity }} likes</div>
-              <div v-if="recipe.vegan"><strong>Vegan</strong> <b-icon-check></b-icon-check></div>
-              <div v-if="recipe.vegetarian"><strong>Vegetarian</strong> <b-icon-check></b-icon-check></div>
-              <div v-if="recipe.glutenFree"><strong>Gluten Free</strong> <b-icon-check></b-icon-check></div>
+                <div><strong>Servings:</strong> {{ recipe.servings }}</div>
+                <div>
+                  <strong>Ready in:</strong> {{ recipe.readyInMinutes }} minutes
+                </div>
+                <div><strong>Likes:</strong> {{ recipe.popularity }} likes</div>
+                <div v-if="recipe.vegan">
+                  <strong>Vegan</strong> <b-icon-check></b-icon-check>
+                </div>
+                <div v-if="recipe.vegetarian">
+                  <strong>Vegetarian</strong> <b-icon-check></b-icon-check>
+                </div>
+                <div v-if="recipe.glutenFree">
+                  <strong>Gluten Free</strong> <b-icon-check></b-icon-check>
+                </div>
               </div>
               <strong>Ingredients:</strong>
               <ul>
@@ -64,43 +87,42 @@ export default {
 
       this.family_recipes = response.data;
       if (!this.family_recipes.length) {
-        this.title = "     You haven't posted any family recipes yet"
+        this.title = "     You haven't posted any family recipes yet";
       }
     } catch (error) {
       console.log(error.response);
     }
   },
   computed: {
-    recipe:{
-    get: function () {
-        if(this.family_recipes.length){
-      return this.family_recipes[this.num];
+    recipe: {
+      get: function() {
+        if (this.family_recipes.length) {
+          return this.family_recipes[this.num];
+        } else {
+          return null;
         }
-        else {return null;}
       },
-    set: function (newValue) {
-      this.recipe = newValue;
-    }
-  }
+      set: function(newValue) {
+        this.recipe = newValue;
+      },
+    },
   },
   methods: {
-    leftRecipe(){
-      if(this.num==0){
-        this.num=this.family_recipes.length-1;
-      }
-      else{
+    leftRecipe() {
+      if (this.num == 0) {
+        this.num = this.family_recipes.length - 1;
+      } else {
         this.num--;
       }
     },
-    rightRecipe(){
-      if(this.num==this.family_recipes.length-1){
-        this.num=0;
-      }
-      else{
+    rightRecipe() {
+      if (this.num == this.family_recipes.length - 1) {
+        this.num = 0;
+      } else {
         this.num++;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -123,35 +145,33 @@ export default {
 .familyCard {
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: #F7C272;
+  background-color: #f7c272;
   padding: 10px 10px 10px 10px;
   box-shadow: 5px 5px 5px 5px;
 }
 
 .wrap {
-  position: relative
+  position: relative;
 }
 
-h3{
+h3 {
   margin: 10px;
 }
 
-#leftArrow{
-  position: absolute;
-  top: 0;
-  left: 0;
+#leftArrow {
+  cursor: pointer;
 }
 
-#rigthArrow{  
+#rightArrow {
   position: absolute;
   top: 0;
   right: 0;
+  cursor: pointer;
 }
 
-.middle{
+.middle {
   position: absolute;
   top: 0;
   right: 49%;
 }
-
 </style>

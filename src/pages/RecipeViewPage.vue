@@ -113,7 +113,7 @@ export default {
   methods: {
     async addToFavorite() {
       if (this.$root.store.username) {
-        if (!this.recipe.isFavorite) {
+        if (this.favorite == "star"){
           try {
             const response = await this.axios.post(
               this.$root.store.server_domain + "/users/favorites",
@@ -172,6 +172,7 @@ export default {
   top: 0;
   right: 0;
   color: #568A9F;
+  cursor: pointer;
 }
 
 .watchedIcon {

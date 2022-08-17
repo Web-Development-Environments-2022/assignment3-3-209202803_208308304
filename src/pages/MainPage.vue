@@ -4,7 +4,7 @@
     <b-row>
       <b-col class="col">
             <RecipePreviewList title="Explore This Recipes:" class="center" :recipes="random_recipes" />
-            <b-button id="moreBtn" size="lg" @click="getRandomRecipes">More</b-button>
+            <b-button id="moreBtn" @click="getRandomRecipes">More<b-icon-shuffle></b-icon-shuffle></b-button>
       </b-col>
       <b-col class="col">
     <div v-if="!$root.store.username">

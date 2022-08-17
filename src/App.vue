@@ -15,9 +15,9 @@
             <b-navbar-nav>
               <b-nav-item-dropdown text="Personal" id="dropdown" class="m-2">
                   <b-dropdown-item :to="{ name: 'favorites' }" >Favorites <b-icon-star></b-icon-star></b-dropdown-item>
-                <b-dropdown-item :to="{ name: 'myrecipes' }" class="b-dropdown-item">My Recipes
+                <b-dropdown-item :to="{ name: 'myrecipes' }" class="b-dropdown-item">My Recipes <b-icon-person></b-icon-person>
                 </b-dropdown-item>
-                <b-dropdown-item :to="{ name: 'familyrecipes' }" class="b-dropdown-item">Family Recipes
+                <b-dropdown-item :to="{ name: 'familyrecipes' }" class="b-dropdown-item">Family Recipes <b-icon-diagram3></b-icon-diagram3>
                 </b-dropdown-item>
               </b-nav-item-dropdown>
               <b-nav-item tag="li" :to="{ name: 'addRecipe' }" id="modal-link" class="nav-link">Add Recipe</b-nav-item>

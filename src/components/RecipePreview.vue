@@ -1,11 +1,11 @@
 <template>
   <div class="card">
     <div class="wrapper">
-      <a href="#"><img @click="viewRecipe" class="card-img-top" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'"></a>
+      <img @click="viewRecipe" class="card-img-top" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'">
       <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="2.2" :animation="likeAnima"></b-icon>
       <b-icon class="watchedIcon" :icon="watched" font-scale="2.2"></b-icon>
     </div>
-    <div href="#" class="card-body" @click="viewRecipe">
+    <div class="card-body" @click="viewRecipe">
       <h5 class="card-title">{{ recipe.title }}</h5>
       <ul >
         <li class="card-text">{{ recipe.readyInMinutes }} minutes</li>
@@ -55,7 +55,7 @@ export default {
   methods: {
     async addToFavorite() {
       if(this.$root.store.username){
-        if (!this.recipe.isFavorite) {
+        if (this.favorite == "star") {
           try {
             const response = await this.axios.post(
               this.$root.store.server_domain + "/users/favorites",
@@ -95,6 +95,7 @@ export default {
   right: 0;
   color: #568A9F;
   background-color: #F7C272;
+  cursor: pointer;
 }
 
 .watchedIcon {
@@ -121,6 +122,7 @@ export default {
 
 .card-img-top {
   height: 185px;
+  cursor: pointer;
 }
 
 .wrapper:hover .card-img-top {
@@ -139,6 +141,7 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .card-text {
@@ -154,7 +157,7 @@ export default {
   align-items: left;
   letter-spacing: 0.5px;
   word-spacing: 3px;
-
+  cursor: pointer;
 }
 
 ul { list-style: none outside none; margin:0; padding: 0; }

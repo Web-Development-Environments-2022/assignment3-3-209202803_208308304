@@ -310,7 +310,7 @@ export default {
           try {
               const res  = await this.axios.post('https://api.cloudinary.com/v1_1/dzx3e6zvk/image/upload', formData);
               this.photoInfo = res.data;
-              this.form.image = this.photoInfo.url;
+              this.form.image = this.photoInfo.secure_url;
             } catch(e) {
             console.log(e)
             }
@@ -344,5 +344,10 @@ export default {
 
 #remove_fields {
   float: right;
+  cursor: pointer;
+}
+
+#add_more_fields{
+  cursor: pointer;
 }
 </style>
