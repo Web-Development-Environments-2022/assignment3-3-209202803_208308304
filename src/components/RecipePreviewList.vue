@@ -4,11 +4,8 @@
       {{ title }}
       <slot></slot>
     </h3>
-    <b-row class="float-left">
-      <b-col v-for="r in recipes" :key="r.Preview.recipe_id">
-            <RecipePreview class="recipePreview" :recipe="r.Preview" />
-      </b-col>
-    </b-row>
+      <div class="float-left" v-for="r in recipes" :key="r.Preview.recipe_id">
+            <RecipePreview class="recipePreview" :recipe="r.Preview" /></div>
   </b-container>
 </template>
 
@@ -42,5 +39,9 @@ export default {
   min-height: 400px;
 }
 
+.recipePreview{
+  margin-right: 35px;
+  margin-bottom: 20px;
+}
 
 </style>

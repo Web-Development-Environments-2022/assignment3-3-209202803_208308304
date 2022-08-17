@@ -20,11 +20,7 @@
             </b-form-invalid-feedback>
           </b-form-group>
           <b-form-group id="input-group-image" label-cols-sm="3" label="image:" label-for="image">
-            <b-form-input id="image" v-model="$v.form.image.$model" type="url" :state="validateState('image')">
-            </b-form-input>
-            <b-form-invalid-feedback v-if="!$v.form.image.url">
-              Recipe Image should be in the URL format
-            </b-form-invalid-feedback>
+            <b-form-file id="image" v-model="file" ref="file-input" accept="image/*" class="mb-2"></b-form-file>
           </b-form-group>
           <div v-if="type_selected == 'family'">
             <b-form-group id="input-group-owner" label-cols-sm="3" label="recipe owner:" label-for="owner">
@@ -108,7 +104,6 @@
 import {
   required,
   numeric,
-  url,
   alpha,
   helpers,
 } from "vuelidate/lib/validators";
@@ -124,6 +119,7 @@ export default {
   },
   data() {
     return {
+      file: null,
       type_selected: 'personal',
       type_options: [
         { text: 'Personal', value: 'personal' },
@@ -171,9 +167,6 @@ export default {
         required,
         alphaNumAndSpaceValidator,
       },
-      image: {
-        url,
-      },
       readyInMinutes: {
         required,
         numeric,
@@ -208,6 +201,7 @@ export default {
     },
     async SaveRecipe() {
       await this.getDiet();
+      await this.getImageUrl();
       try {
         let body = {
           title: this.form.title,
@@ -261,7 +255,6 @@ export default {
       }
     },
     exit(bvModalEvt) {
-
       if (confirm("Are you sure you want to exit?\nYour recipe will be lost") == true) {
         this.$router.back();
       }
@@ -309,6 +302,20 @@ export default {
       }
       this.SaveRecipe();
     },
+    async getImageUrl(){
+      if(this.file){
+          let formData = new FormData();
+          formData.append("file", this.file);
+          formData.append("upload_preset",'o264ypis')
+          try {
+              const res  = await this.axios.post('https://api.cloudinary.com/v1_1/dzx3e6zvk/image/upload', formData);
+              this.photoInfo = res.data;
+              this.form.image = this.photoInfo.url;
+            } catch(e) {
+            console.log(e)
+            }
+      }
+    }
   },
 };
 </script>

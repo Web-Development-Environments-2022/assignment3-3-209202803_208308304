@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <b-navbar id="navbar" type="dark">
-      <b-navbar-brand href="#">
+      <b-navbar-brand>
         <img id="logo" src="./assets/logo.png" alt="recipes" style="width:3em; height:auto;">
       </b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <router-link tag="li" :to="{ name: 'main' }" class="nav-link">Main</router-link>
-          <router-link tag="li" :to="{ name: 'about' }" class="nav-link">About</router-link>
-          <router-link tag="li" :to="{ name: 'search' }" class="nav-link">Search</router-link>
+          <b-nav-item tag="li" :to="{ name: 'main' }" class="nav-link">Main</b-nav-item>
+          <b-nav-item tag="li" :to="{ name: 'about' }" class="nav-link">About</b-nav-item>
+          <b-nav-item tag="li" :to="{ name: 'search' }" class="nav-link">Search</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <span v-if="$root.store.username">
@@ -20,7 +20,7 @@
                 <b-dropdown-item :to="{ name: 'familyrecipes' }" class="b-dropdown-item">Family Recipes
                 </b-dropdown-item>
               </b-nav-item-dropdown>
-              <router-link tag="li" :to="{ name: 'addRecipe' }" id="modal-link" class="nav-link">Add Recipe</router-link>
+              <b-nav-item tag="li" :to="{ name: 'addRecipe' }" id="modal-link" class="nav-link">Add Recipe</b-nav-item>
             </b-navbar-nav>
           </span>
         </b-navbar-nav>
@@ -29,8 +29,8 @@
           <span v-if="!$root.store.username">
             <b-navbar-nav>
               <b-nav-text tag="li" class="nav-item" id="hello-guest">Hello Guest</b-nav-text>
-              <router-link tag="li" :to="{ name: 'register' }" class="nav-link">Register</router-link>
-              <router-link tag="li" :to="{ name: 'login' }" class="nav-link">Login</router-link>
+              <b-nav-item tag="li" :to="{ name: 'register' }" class="nav-link">Register</b-nav-item>
+              <b-nav-item tag="li" :to="{ name: 'login' }" class="nav-link">Login</b-nav-item>
             </b-navbar-nav>
           </span>
           <span v-else>
@@ -52,15 +52,10 @@ export default {
   methods: {
     async Logout() {
       const response = await this.$root.store.logout();
-      if (response) {
         this.$root.toast("Logout", "User logged out successfully", "success");
         this.$router.push("/").catch(() => {
           this.$forceUpdate();
         });
-      }
-      else{
-        this.$root.toast("Logout-fail", "Something went wrong with our server", "warning");
-      }
     }
   }
 };
@@ -113,7 +108,7 @@ html {
 
   #dropdown{
     opacity: 1;
-    margin-top: 1px;
+    // margin-top: 17px;
   }
 
   #dropdown:hover{
@@ -131,9 +126,6 @@ html {
 
 }
 
-#modal-link {
-  margin-top: 7.5px;
-}
 
 </style>
 
@@ -149,19 +141,20 @@ html {
 
 #hello-user {
   color: #DAC971;
-  margin-top: 7.5px;
+  margin-top: 8px;
   font-size: 18px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-style: italic;
-  margin-right:  5px;
+  margin-right:  10px;
 }
 
 #hello-guest{
-    color: #DAC971;
+  color: #DAC971;
+  margin-top: 8px;
   font-size: 18px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-style: italic;
-  margin-right:  5px;
+  margin-right: 10px;
 }
 
 #hello-user:hover{

@@ -7,7 +7,7 @@
           aria-label="Search">
         <button class="btn" type="submit">Search</button>
 
-        <b-dropdown id="filter-btn" text="Filter By:" class="btn">
+        <b-dropdown id="filter-btn" text="Filter By" class="btn">
           <b-dropdown-item @click="noFilters" class="dropdown-group">
             No Filters
           </b-dropdown-item>
@@ -39,6 +39,10 @@
             </template>
           </b-dropdown-group>
         </b-dropdown>
+        <b-dropdown id="dropdown-1" text="Sort By" class="m-md-2">
+          <b-dropdown-item @click="sortByPrepTime">prepration time (low to high) </b-dropdown-item>
+          <b-dropdown-item @click="sortByPopularity">popularity (high to low)</b-dropdown-item>
+        </b-dropdown>
       </form>
       <div>
         <p>Number of results: </p>
@@ -48,9 +52,7 @@
       </div>
 
     </nav>
-    <RecipePreviewList :title="title" class="SearchResult center" :recipes="search_result.slice(0, 3)" />
-    <RecipePreviewList v-for="i in row_num" :key="i" title="" class="SearchResult center"
-      :recipes="search_result.slice(i * 3, i * 3 + 3)" />
+    <RecipePreviewList :title="title" class="SearchResult center" :recipes="search_result" />
   </div>
 </template>
 
@@ -68,7 +70,6 @@ export default {
       search_result: [],
       no_result: false,
       title: "",
-      row_num: 1,
       result_num_selected: '5',
       result_num_options: [
         { text: '5', value: '5' },
@@ -144,7 +145,6 @@ export default {
     if (storedQuery) {
       this.title = storedQuery;
     }
-    this.row_num = Math.ceil(this.search_result.length / 3);
   },
   methods: {
     async getSearchRecipes() {
@@ -173,7 +173,6 @@ export default {
         }
         this.$root.store.setSearchResult(this.title, this.search_result);
 
-        this.row_num = Math.ceil(this.search_result.length / 3);
         this.noFilters()
       } catch (error) {
         console.log(error);
@@ -184,6 +183,14 @@ export default {
       this.diet_selected = [];
       this.intolerances_selected = [];
     },
+    sortByPrepTime(){
+      this.search_result = this.search_result.sort(function(a,b){return a.Preview.readyInMinutes - b.Preview.readyInMinutes});
+      this.$root.store.setSearchResult(this.title, this.search_result);
+    },
+    sortByPopularity(){
+      this.search_result = this.search_result.sort(function(a,b){return b.Preview.popularity - a.Preview.popularity});
+      this.$root.store.setSearchResult(this.title, this.search_result);
+    }
   },
 };
 </script>

@@ -32,6 +32,7 @@ import {
   ModalPlugin,
   InputGroupPlugin,
   FormTextareaPlugin,
+  FormFilePlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -51,6 +52,7 @@ import {
   ModalPlugin,
   InputGroupPlugin,
   FormTextareaPlugin,
+  FormFilePlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
@@ -78,6 +80,11 @@ axios.interceptors.response.use(
         //session expired
         shared_data.logoutFromFront();
         router.replace("/auth/login");
+      }
+      else if (error.response.status == 412) {
+        //session expired
+        shared_data.logoutFromFront();
+        router.replace("/");
       }
     }
     return Promise.reject(error);
@@ -114,6 +121,11 @@ const shared_data = {
   logoutFromFront() {
     localStorage.removeItem("username");
     this.username = undefined;
+    localStorage.removeItem("search_result");
+    this.search_result = undefined;
+    localStorage.removeItem("search_query");
+    this.search_query = undefined;
+
   },
   setSearchResult(search_query, search_result) {
     localStorage.setItem('search_query', JSON.stringify(search_query));

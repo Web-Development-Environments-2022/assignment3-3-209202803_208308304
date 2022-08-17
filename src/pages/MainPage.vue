@@ -1,17 +1,22 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes:" class="RandomRecipes center" :recipes="random_recipes" />
-    <br>
-    <br>
-    <div v-if="!$root.store.username" class="float-left">
-           <h3 id="blur"> Last Viewed Recipes:</h3> 
-           You need to login to vue this
-      <LoginPage @login="getWatchedRecipes"></LoginPage>
+    <b-row>
+      <b-col class="col">
+            <RecipePreviewList title="Explore This Recipes:" class="center" :recipes="random_recipes" />
+            <b-button id="moreBtn" size="lg" @click="getRandomRecipes">More</b-button>
+      </b-col>
+      <b-col class="col">
+    <div v-if="!$root.store.username">
+           <h3 id="blur" class="center">Last Watched Recipes:</h3> 
+           <p class="center">You need to login to vue this</p>
+      <LoginPage id="login" @login="getWatchedRecipes"></LoginPage>
     </div>
     <div v-else>
-      <RecipePreviewList title="Last Viewed Recipes:" class="RandomRecipes center" :recipes="watched_recipes" />
+      <RecipePreviewList title="Last Watched Recipes:" class="center" :recipes="watched_recipes" />
     </div>
+    </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -22,7 +27,7 @@ export default {
   name: "MainPage",
   components: {
     RecipePreviewList,
-    LoginPage
+    LoginPage,
   },
 
   data() {
@@ -64,12 +69,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.RandomRecipes {
-  margin: 10px 0 10px;
+
+.center {
+  margin: 10px 10px 10px;
+  padding-left: 60px;
+}
+
+.col{
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-right: 100px;
+    box-shadow: 2px 2px 4px 4px #6a6a6a;
+    background-color:rgb(216, 234, 250);
+}
+
+#moreBtn{
+    margin: 10px 180px 10px;
 }
 
 #blur {
 color: transparent;
    text-shadow: 0 0 5px rgba(#2c3e50,0.95);
+}
+
+#login{
+  background-color: #AFBED5 !important;
 }
 </style>

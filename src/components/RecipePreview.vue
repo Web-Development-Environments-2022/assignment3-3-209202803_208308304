@@ -1,11 +1,11 @@
 <template>
   <div class="card">
     <div class="wrapper">
-        <img @click="viewRecipe" class="card-img-top" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'"  >
+      <a href="#"><img @click="viewRecipe" class="card-img-top" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'"></a>
       <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="2.2" :animation="likeAnima"></b-icon>
       <b-icon class="watchedIcon" :icon="watched" font-scale="2.2"></b-icon>
     </div>
-    <div class="card-body" @click="viewRecipe">
+    <div href="#" class="card-body" @click="viewRecipe">
       <h5 class="card-title">{{ recipe.title }}</h5>
       <ul >
         <li class="card-text">{{ recipe.readyInMinutes }} minutes</li>
@@ -22,7 +22,7 @@
           <img v-if="recipe.vegetarian" class="icon" src="../assets/vegetarian.png">
         </b-col>
         <b-col>
-          <img v-if="recipe.glutenFree" class="icon" style="width:77%" src="../assets/glutenfree.png">
+          <img v-if="recipe.glutenFree" class="icon" style="width:76%; margin-top:5px" src="../assets/glutenfree.png">
         </b-col>
       </b-row>
     </div>
@@ -36,6 +36,8 @@ export default {
       this.favorite = "star-fill";
     if (this.recipe.isWatched)
       this.watched = "eye-fill";
+    if(!this.recipe.image)
+      this.recipe.image = 'https://spoonacular.com/recipeImages/471334-312x231.jpg';
   },
   data() {
     return {
@@ -66,7 +68,7 @@ export default {
               this.likeAnima = "";
             }, 1500);
           } catch (err) {
-            console.log(err.response);
+            console.log("Response status: " + err.response.status);
           }
         }
       }
@@ -104,7 +106,7 @@ export default {
 }
 
 .card {
-  width: 280px;
+  width: 300px;
   height: 400px;
   position: relative;
   margin: 10px 0px;

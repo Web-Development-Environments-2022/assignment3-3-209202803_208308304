@@ -2,8 +2,11 @@
   <div class="container">
     <h1 class="title">Family Recipes:</h1>
     <h3 v-if=!family_recipes.length> {{ title }} </h3>
-    <div class="familyCard" v-for="(recipe, index) in family_recipes" :key="index">
-      <div v-if="recipe">
+    <div class="wrap" v-if="recipe">
+      <b-icon-arrow-left-circle-fill d=leftArrow @click="leftRecipe" font-scale="4"></b-icon-arrow-left-circle-fill>
+      <h3 class="middle">{{num + 1}}</h3>
+      <b-icon-arrow-right-circle-fill id="rigthArrow" @click="rightRecipe" font-scale="4"></b-icon-arrow-right-circle-fill>
+      <div class="familyCard" v-if=family_recipes.length>
         <div class="recipe-header mt-3 mb-4">
           <h3>{{ recipe.title }}</h3>
             <img class="center" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'">
@@ -49,6 +52,7 @@ export default {
     return {
       family_recipes: [],
       title: "",
+      num: 0,
     };
   },
   async created() {
@@ -66,6 +70,37 @@ export default {
       console.log(error.response);
     }
   },
+  computed: {
+    recipe:{
+    get: function () {
+        if(this.family_recipes.length){
+      return this.family_recipes[this.num];
+        }
+        else {return null;}
+      },
+    set: function (newValue) {
+      this.recipe = newValue;
+    }
+  }
+  },
+  methods: {
+    leftRecipe(){
+      if(this.num==0){
+        this.num=this.family_recipes.length-1;
+      }
+      else{
+        this.num--;
+      }
+    },
+    rightRecipe(){
+      if(this.num==this.family_recipes.length-1){
+        this.num=0;
+      }
+      else{
+        this.num++;
+      }
+    }
+  }
 };
 </script>
 
@@ -88,11 +123,35 @@ export default {
 .familyCard {
   margin-top: 20px;
   margin-bottom: 20px;
+  background-color: #F7C272;
   padding: 10px 10px 10px 10px;
   box-shadow: 5px 5px 5px 5px;
+}
+
+.wrap {
+  position: relative
 }
 
 h3{
   margin: 10px;
 }
+
+#leftArrow{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#rigthArrow{  
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.middle{
+  position: absolute;
+  top: 0;
+  right: 49%;
+}
+
 </style>

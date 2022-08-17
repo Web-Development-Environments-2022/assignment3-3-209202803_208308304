@@ -4,11 +4,13 @@
       <div class="recipe-header mt-3 mb-4">
         <h1>{{ recipe.title }}</h1>
         <div class="wrapper-img">
-          <img class="center" :src="recipe.image" v-on:error="recipe.image='https://spoonacular.com/recipeImages/471334-312x231.jpg'">
-          <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="3" :animation="likeAnima"></b-icon>
+          <img class="center" :src="recipe.image"
+            v-on:error="recipe.image = 'https://spoonacular.com/recipeImages/471334-312x231.jpg'">
+          <b-icon @click="addToFavorite" class="likeIcon" :icon="favorite" font-scale="3" :animation="likeAnima">
+          </b-icon>
           <b-icon class="watchedIcon" :icon="watched" font-scale="3"></b-icon>
         </div>
-          </div>
+      </div>
       <div class="recipe-body">
         <div class="wrapper">
           <div class="wrapped">
@@ -16,9 +18,15 @@
               <div><strong>Servings:</strong> {{ recipe.servings }}</div>
               <div><strong>Ready in:</strong> {{ recipe.readyInMinutes }} minutes</div>
               <div><strong>Likes:</strong> {{ recipe.popularity }} likes</div>
-              <div v-if="recipe.vegan"><strong>Vegan</strong> <b-icon-check></b-icon-check></div>
-              <div v-if="recipe.vegetarian"><strong>Vegetarian</strong> <b-icon-check></b-icon-check></div>
-              <div v-if="recipe.glutenFree"><strong>Gluten Free</strong> <b-icon-check></b-icon-check></div>
+              <div v-if="recipe.vegan"><strong>Vegan</strong>
+                <b-icon-check></b-icon-check>
+              </div>
+              <div v-if="recipe.vegetarian"><strong>Vegetarian</strong>
+                <b-icon-check></b-icon-check>
+              </div>
+              <div v-if="recipe.glutenFree"><strong>Gluten Free</strong>
+                <b-icon-check></b-icon-check>
+              </div>
             </div>
             <strong>Ingredients:</strong>
             <ul>
@@ -99,10 +107,12 @@ export default {
       this.favorite = "star-fill";
     if (this.recipe.isWatched)
       this.watched = "eye-fill";
+    if (!this.recipe.image)
+      this.recipe.image = 'https://spoonacular.com/recipeImages/471334-312x231.jpg';
   },
-  methods:{
+  methods: {
     async addToFavorite() {
-      if(this.$root.store.username){
+      if (this.$root.store.username) {
         if (!this.recipe.isFavorite) {
           try {
             const response = await this.axios.post(
@@ -120,7 +130,7 @@ export default {
           }
         }
       }
-      else{
+      else {
         this.$root.toast("Not Logged In", "You have to be logged in to like recipes", "error");
       }
     },
@@ -129,6 +139,15 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #F7C272;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 5px 5px 5px 5px;
+
+}
+
 .wrapper {
   display: flex;
 }

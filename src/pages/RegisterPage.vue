@@ -53,11 +53,10 @@
           Password is required
         </b-form-invalid-feedback>
         <b-form-text v-else-if="$v.form.password.$error" text-variant="info">
-          Your password should be <strong>strong</strong>. <br />
-          For that, your password should be also:
+          Your password should be <strong>strong</strong>. <br /> 
         </b-form-text>
-        <b-form-invalid-feedback v-if="$v.form.password.required && !$v.form.password.length">
-          Have length between 5-10 characters long
+        <b-form-invalid-feedback v-if="$v.form.password.required && !$v.form.password.oneNumericOneSpecialChar">
+           Password length should be between 5-10 chars which contain at least one numeric digit and one special char
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -105,8 +104,10 @@ import {
   maxLength,
   alpha,
   sameAs,
-  email
+  email,
+  helpers,
 } from "vuelidate/lib/validators";
+const oneNumericOneSpecialChar = helpers.regex('strongPass',/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,10}$/)
 
 export default {
   name: "Register",
@@ -147,7 +148,7 @@ export default {
       },
       password: {
         required,
-        length: (p) => minLength(5)(p) && maxLength(10)(p)
+        oneNumericOneSpecialChar
       },
       confirmedPassword: {
         required,
@@ -214,6 +215,7 @@ export default {
 .container {
   width: 500px;
   margin-top: 30px;
+  margin-bottom: 30px;
   padding: 20px 20px 20px 20px;
   box-shadow: 2px 2px 5px 5px #6a6a6a;
 }
